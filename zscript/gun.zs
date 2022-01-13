@@ -285,7 +285,7 @@ class BusterLaser : LaserShot
 		Death:
 			LSML A 3 
 			{ 
-				A_Explode(16,128,fulldamagedistance:128); blasts += 1; 
+				A_Explode(16,128,0,fulldamagedistance:128); blasts += 1; 
 				for(int i = 0; i < 360; i += 45)
 				{
 					A_SpawnItemEX("LaserTrail",xvel:16,angle:i);
