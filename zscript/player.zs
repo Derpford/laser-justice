@@ -12,6 +12,7 @@ class LaserPaladin : DoomPlayer
 	default
 	{
 		LaserPaladin.iframes 10;
+		StartItem "LaserGun";
 	}
 
 	override void Tick()
