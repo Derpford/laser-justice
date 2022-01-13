@@ -7,6 +7,70 @@ class LaserGun : Weapon
 
 	}
 
+	action int GetLevel()
+	{
+		int tokens = invoker.owner.countinv("UpgradeToken");
+		int lvl = min(floor(tokens/100.),5);
+		return lvl;
+	}
+
+	action void FireLaserGun()
+	{
+		// Handles firing the various stages of the LaserGun.
+		int lvl = GetLevel();
+
+		switch(lvl)
+		{
+			case 0: // starting shot
+				A_FireProjectile("LaserShot");
+				break;
+			case 1: // double shot
+				A_FireProjectile("LaserShot",spawnofs_xy:-16);
+				A_FireProjectile("LaserShot",spawnofs_xy:16);
+				break;
+			case 2: // beam shot
+				A_FireProjectile("BeamShot");
+				A_SetTics(3);
+				break;
+			case 3: // spread shot
+				A_FireProjectile("SmallLaserShot",8,spawnofs_xy:-8);
+				A_FireProjectile("SmallLaserShot",-8,spawnofs_xy:8);
+				A_FireProjectile("LaserShot",4,spawnofs_xy:-4);
+				A_FireProjectile("LaserShot",-4,spawnofs_xy:4);
+				A_FireProjectile("SmallLaserShot");
+				break;
+		}
+	}
+
+	action void SetFireTics(bool secondframe)
+	{
+
+		int lvl = GetLevel();
+
+		switch(lvl)
+		{
+			case 0: // starting shot
+				A_SetTics(2);
+				break;
+			case 1: // double shot
+				if(secondframe)
+				{
+					A_SetTics(3);
+				}
+				else
+				{
+					A_SetTics(2);
+				}
+				break;
+			case 2: // beam shot
+				A_SetTics(4);
+				break;
+			case 3: // spread shot
+				A_SetTics(3);
+				break;
+		}
+	}
+
 	states
 	{
 		Select:
@@ -21,7 +85,175 @@ class LaserGun : Weapon
 			Loop;
 
 		Fire:
-			PISG BC 2;
+			PISG A 1 FireLaserGun(); // TODO: Firing function to handle upgrades.
+			PISG B 2 SetFireTics(false);
+			PISG C 2 SetFireTics(true);
 			Goto Ready;
+	}
+}
+
+class LaserShot : Actor
+{
+	// A basic laser blast.
+	Default
+	{
+		Projectile;
+		//RenderStyle "Add";
+		DamageFunction (8);
+		Speed 45;
+	}
+
+	states
+	{
+		Spawn:
+			LAS1 AB 3 
+			{
+				let ring = Spawn("LaserTrail",pos);
+				ring.vel = vel * .5;
+			}
+			Loop;
+
+		Death:
+			//LAS1 AB 3;
+			LRNG ABAB 3 A_SetScale(Scale.x * 1.2, Scale.y * 1.2);
+			TNT1 A 0;
+			Stop;
+	}
+}
+
+class SmallLaserShot : LaserShot
+{
+	// A smaller laser blast.
+	Default
+	{
+		DamageFunction (4);
+	}
+
+	states
+	{
+		Spawn:
+			LSML AB 3
+			{
+				let ring = Spawn("SmallLaserTrail",pos);
+				ring.vel = vel * .5;
+			}
+			Loop;
+		Death:
+			LSML CDCD 3 A_SetScale(Scale.x * 1.2, Scale.y * 1.2);
+			TNT1 A 0;
+			Stop;
+	}
+}
+
+class BeamShot : LaserShot
+{
+	// A big beam shot that comes with four smaller shots behind it.
+
+	Default
+	{
+		DamageFunction (16);
+		+ROLLSPRITE;
+	}
+
+	override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+		for(int i = 0; i < 4; i++)
+		{
+			Vector3 spawnpos = pos + (vel * -(i+1));
+			let it = Spawn("BeamTrailShot",spawnpos);
+			it.target = target;
+			it.vel = vel;
+			it.roll = -(i+1)*20;
+		}
+	}
+
+	override void Tick()
+	{
+		Super.Tick();
+		if(InStateSequence(curstate, ResolveState("Spawn")))
+		{
+			roll += 10;
+		}
+	}
+
+	states
+	{
+		Spawn:
+			LBEM AB 4;
+			Loop;
+
+		Death:
+			LBEM A 0 { roll = 0; A_SetScale(2,2); }
+			LRNG ABAB 3 A_SetScale(Scale.x * 1.2, Scale.y * 1.2);
+			TNT1 A 0;
+			Stop;
+	}
+
+}
+
+class BeamTrailShot : LaserShot
+{
+	// Smaller spinny trail, otherwise identical to the LaserShot.
+
+	Default
+	{
+		+ROLLSPRITE;
+		Scale 0.5;
+	}
+
+	override void Tick()
+	{
+		Super.Tick();
+		if(InStateSequence(curstate, ResolveState("Spawn")))
+		{
+			roll += 10;
+		}
+	}
+
+	states
+	{
+		Spawn:
+			LBEM AB 4;
+			Loop;
+
+		Death:
+			LBEM A 0 { roll = 0; A_SetScale(1,1); }
+			LRNG ABAB 3 A_SetScale(Scale.x * 1.2, Scale.y * 1.2);
+			TNT1 A 0;
+			Stop;
+	}
+}
+
+class LaserTrail : Actor
+{
+	// A trail of rings behind a laser shot.
+	Default
+	{
+		+NOINTERACTION;
+		Scale 0.5;
+		//RenderStyle "Add";
+	}
+
+	states
+	{
+		Spawn:
+			LRNG ABAB 2;
+			TNT1 A 0;
+			Stop;
+	}
+
+}
+
+class SmallLaserTrail : LaserTrail
+{
+	// Smaller rings.
+
+	states
+	{
+		Spawn:
+			LSML CDCD 2;
+			TNT1 A 0;
+			Stop;
 	}
 }
