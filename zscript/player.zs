@@ -15,6 +15,12 @@ class LaserPaladin : DoomPlayer
 		Player.StartItem "LaserGun";
 	}
 
+	override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+		dodgetimer = 1; // Don't dodge on frame zero, silly.
+	}
+
 	void DrawInvSparkles()
 	{
 		int i = 5 + GetAge() % 10; // should do 5, 6, 7, 5, 6, 7
@@ -31,14 +37,17 @@ class LaserPaladin : DoomPlayer
 		int btn = GetPlayerInput(INPUT_BUTTONS);
 		int oldbtn = GetPlayerInput(INPUT_OLDBUTTONS);
 
-		if(dodgetimer == 0 && (btn & BT_RUN) && !(oldbtn & BT_RUN))
+		if(dodgetimer == 0 && (btn & BT_SPEED) && !(oldbtn & BT_SPEED))
 		{
 			// Just tapped the Run key.
 			//Console.printf("Dodge!");
 			dodgetimer = 35; //1-second cooldown between dodges.
 			iframes = 0;
 			invuln = true;
-			vel = vel.Unit() * 12;
+			if(vel.length() > 5 || (btn & BT_JUMP))
+			{
+				vel = vel.Unit() * 24;
+			}
 		}
 
 		if(invuln)
