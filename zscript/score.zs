@@ -15,7 +15,7 @@ class CopperCoin : ScoreItem
 	}
 }
 
-class SilverCoin : ScoreItem
+class SilverCoin : CopperCoin
 {
 	// Medium coin. 25 points.
 
@@ -32,7 +32,7 @@ class SilverCoin : ScoreItem
 	}
 }
 
-class GoldCoin : ScoreItem
+class GoldCoin : SilverCoin
 {
 	// Big coin. 125 points.
 

@@ -26,7 +26,7 @@ class CoinHandler : EventHandler
 	{
 		let this = src.Spawn(it,src.pos);
 		double rad = src.radius/3;
-		this.vel = (frandom(-rad,rad), frandom(-rad,rad), frandom(rad,rad*2));
+		this.vel = (frandom(-rad/2,rad/2), frandom(-rad/2,rad/2), frandom(rad,rad*2));
 	}
 
 	override void WorldThingDied(WorldEvent e)
