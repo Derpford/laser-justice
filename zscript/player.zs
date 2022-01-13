@@ -15,6 +15,15 @@ class LaserPaladin : DoomPlayer
 		Player.StartItem "LaserGun";
 	}
 
+	void DrawInvSparkles()
+	{
+		int i = 5 + GetAge() % 10; // should do 5, 6, 7, 5, 6, 7
+		if(A_Overlay(i,"Sparkle",true)) // Only set the overlay's position on a new frame.
+		{
+			A_OverlayOffset(i,frandom(-24,24),frandom(-24,-72));
+		}
+	}
+
 	override void Tick()
 	{
 		Super.Tick();
@@ -22,12 +31,14 @@ class LaserPaladin : DoomPlayer
 		int btn = GetPlayerInput(INPUT_BUTTONS);
 		int oldbtn = GetPlayerInput(INPUT_OLDBUTTONS);
 
-		if(dodgetimer == 0 && btn & BT_RUN && !(oldbtn & BT_RUN))
+		if(dodgetimer == 0 && (btn & BT_RUN) && !(oldbtn & BT_RUN))
 		{
 			// Just tapped the Run key.
+			//Console.printf("Dodge!");
 			dodgetimer = 35; //1-second cooldown between dodges.
 			iframes = 0;
 			invuln = true;
+			vel = vel.Unit() * 12;
 		}
 
 		if(invuln)
@@ -36,14 +47,7 @@ class LaserPaladin : DoomPlayer
 			{
 				bINVULNERABLE = true;
 				iframes += 1;
-				if(GetAge() % 3 == 0)
-				{
-					player.readyweapon.A_SetRenderStyle(1,STYLE_Stencil);
-				}
-				else
-				{
-					player.readyweapon.RestoreRenderStyle();
-				}
+				DrawInvSparkles();
 			}
 			else
 			{
@@ -58,5 +62,13 @@ class LaserPaladin : DoomPlayer
 		{
 			dodgetimer -= 1;
 		}
+	}
+
+	states
+	{
+		Sparkle:
+			SPRK ABC 2;
+			TNT1 A 0;
+			Stop;
 	}
 }
