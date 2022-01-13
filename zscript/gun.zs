@@ -186,23 +186,12 @@ class BeamShot : LaserShot
 {
 	// A big beam shot that comes with four smaller shots behind it.
 
+	int beams;
+
 	Default
 	{
 		DamageFunction (16);
 		+ROLLSPRITE;
-	}
-
-	override void PostBeginPlay()
-	{
-		Super.PostBeginPlay();
-		for(int i = 0; i < 4; i++)
-		{
-			Vector3 spawnpos = pos + (vel * -(i+1));
-			let it = Spawn("BeamTrailShot",spawnpos);
-			it.target = target;
-			it.vel = vel;
-			it.roll = -(i+1)*20;
-		}
 	}
 
 	override void Tick()
@@ -211,6 +200,15 @@ class BeamShot : LaserShot
 		if(InStateSequence(curstate, ResolveState("Spawn")))
 		{
 			roll += 10;
+			if(beams < 4)
+			{
+				Vector3 spawnpos = pos + (vel * -(beams+1));
+				let it = Spawn("BeamTrailShot",spawnpos);
+				it.target = target;
+				it.vel = vel;
+				it.roll = -(beams+1)*20;
+				beams += 1;
+			}
 		}
 	}
 
