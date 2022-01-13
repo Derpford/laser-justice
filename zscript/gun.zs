@@ -39,6 +39,14 @@ class LaserGun : Weapon
 				A_FireProjectile("LaserShot",-4,spawnofs_xy:4);
 				A_FireProjectile("SmallLaserShot");
 				break;
+			case 4: // buster shot
+				A_FireProjectile("BusterLaser");
+				A_SetTics(4);
+				break;
+			case 5: // omega shot
+				A_SetTics(3);
+				A_FireProjectile("SmallBeamShot");
+
 		}
 	}
 
@@ -67,6 +75,22 @@ class LaserGun : Weapon
 				break;
 			case 3: // spread shot
 				A_SetTics(3);
+				break;
+			case 4: // buster shot
+				A_SetTics(6);
+				break;
+			case 5: // omega shot
+				A_SetTics(4);
+				if(secondframe)
+				{
+					A_FireProjectile("SmallBeamShot",12,spawnofs_xy:-12);
+					A_FireProjectile("SmallBeamShot",-12,spawnofs_xy:12);
+				}
+				else
+				{
+					A_FireProjectile("LaserShot",4,spawnofs_xy:-4);
+					A_FireProjectile("LaserShot",-4,spawnofs_xy:4);
+				}
 				break;
 		}
 	}
@@ -192,6 +216,18 @@ class BeamShot : LaserShot
 
 }
 
+class SmallBeamShot : BeamShot
+{
+	// Literally just a smaller BeamShot.
+
+	states
+	{
+		Spawn:
+			LAS1 AB 4;
+			Loop;
+	}
+}
+
 class BeamTrailShot : LaserShot
 {
 	// Smaller spinny trail, otherwise identical to the LaserShot.
@@ -220,6 +256,56 @@ class BeamTrailShot : LaserShot
 		Death:
 			LBEM A 0 { roll = 0; A_SetScale(1,1); }
 			LRNG ABAB 3 A_SetScale(Scale.x * 1.2, Scale.y * 1.2);
+			TNT1 A 0;
+			Stop;
+	}
+}
+
+class BusterLaser : LaserShot
+{
+	// A laser that explodes repeatedly on impact.
+	// Physics can go fuck itself.
+	int blasts;
+
+	Default
+	{
+		Scale 2;
+	}
+
+	states
+	{
+		Spawn:
+			LAS1 AAAAABBBBB 1
+			{
+				A_SetScale(2+sin(GetAge()*35));
+				let ring = Spawn("LaserTrail",pos);
+				ring.vel = vel * .5;
+			}
+			Loop;
+		Death:
+			LSML A 3 
+			{ 
+				A_Explode(16,128,fulldamagedistance:128); blasts += 1; 
+				for(int i = 0; i < 360; i += 45)
+				{
+					A_SpawnItemEX("LaserTrail",xvel:16,angle:i);
+				}
+				A_SetScale(2);
+			}
+			LAS1 B 1 A_SetScale(3);
+			LRNG A 1 A_SetScale(3.5);
+			LRNG B 1 A_SetScale(4);
+			LRNG A 0 
+			{
+				if(blasts < 6)
+				{
+					return ResolveState("Death");
+				}
+				else
+				{
+					return ResolveState("null");
+				}
+			}
 			TNT1 A 0;
 			Stop;
 	}
