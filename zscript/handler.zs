@@ -19,3 +19,36 @@ class WeaponTokenHandler : EventHandler
 		}
 	}
 }
+
+class CoinHandler : EventHandler
+{
+	void TossDrop(Actor src, Name it)
+	{
+		let this = src.Spawn(it,src.pos);
+		double rad = src.radius/3;
+		this.vel = (frandom(-rad,rad), frandom(-rad,rad), frandom(rad,rad*2));
+	}
+
+	override void WorldThingDied(WorldEvent e)
+	{
+		int amt = e.Thing.SpawnHealth();
+		while(amt > 5)
+		{
+			if(amt > 125)
+			{
+				TossDrop(e.Thing,"GoldCoin");
+				amt -= 125;
+			}
+			if(amt > 25)
+			{
+				TossDrop(e.Thing,"SilverCoin");
+				amt -= 25;
+			}
+			if(amt > 5)
+			{
+				TossDrop(e.Thing,"CopperCoin");
+				amt -= 5;
+			}
+		}
+	}
+}

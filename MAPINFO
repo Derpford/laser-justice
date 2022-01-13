@@ -1,5 +1,5 @@
 gameinfo
 {
 	PlayerClasses = "LaserPaladin"
-	AddEventHandlers = "WeaponTokenHandler"
+	AddEventHandlers = "WeaponTokenHandler", "CoinHandler"
 }
