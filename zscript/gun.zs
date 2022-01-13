@@ -10,7 +10,7 @@ class LaserGun : Weapon
 	action int GetLevel()
 	{
 		int tokens = invoker.owner.countinv("UpgradeToken");
-		int lvl = min(floor(tokens/100.),5);
+		int lvl = min(floor(tokens/200.),5);
 		return lvl;
 	}
 
