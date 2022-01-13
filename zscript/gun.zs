@@ -17,7 +17,7 @@ class LaserGun : Weapon
 			Loop;
 
 		Ready:
-			PISG A 1 A_ReadyWeapon();
+			PISG A 1 A_WeaponReady();
 			Loop;
 
 		Fire:
