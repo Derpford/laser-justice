@@ -1,0 +1,9 @@
+weapons/laserx LASHIT1
+$limit weapons/laserx 0
+$pitchset weapons/laserx 0.7 1.3
+weapons/laserf LASFIRE1
+weapons/laserf2 LASFIRE2
+weapons/laserf3 LASFIRE3
+
+weapons/laserf4 LASFIRE3
+$pitchset weapons/laserf4 1.2
