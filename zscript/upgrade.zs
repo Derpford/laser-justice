@@ -52,7 +52,7 @@ class ShellUpgradeToken : UpgradeToken replaces Shell
 	}
 }
 
-class RocketUpgradeToken : UpgradeToken replaces Rocket
+class RocketUpgradeToken : UpgradeToken replaces RocketAmmo
 {
 	default
 	{
