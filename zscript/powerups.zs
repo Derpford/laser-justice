@@ -69,3 +69,24 @@ class OrbiterManager : Inventory replaces Blursphere
 
 }
 
+class Megashield : Inventory replaces Megasphere
+{
+	default
+	{
+		+BRIGHT;
+	}
+	// Gives 200 health and max shield.
+	override bool TryPickup(in out actor toucher)
+	{
+		toucher.A_GiveInventory("HealthBonus",200);
+		toucher.A_GiveInventory("BigShield");
+		GoAwayAndDie();
+		return true;
+	}
+
+	states
+	{
+		Spawn:
+			MEGA ABCD 5;
+	}
+}
