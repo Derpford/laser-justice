@@ -4,7 +4,7 @@ class LaserUI : BaseStatusBar
 
 	int hpval; // health
 	double armoramount, armormax; // armor details
-	int leftbarf, rightbarf, cbarf, ctextf, ltextf, rtextf;
+	int leftbarf, rightbarf, cbarf, ctextf, ltextf, rtextf,multif;
 
 	HUDFont mConFont; // Console font.
 	HUDFont mBigFont;
@@ -22,6 +22,7 @@ class LaserUI : BaseStatusBar
 		cbarf = DI_SCREEN_CENTER_BOTTOM|DI_ITEM_CENTER_BOTTOM;
 		ctextf = DI_SCREEN_CENTER_BOTTOM | DI_ITEM_CENTER_BOTTOM | DI_TEXT_ALIGN_CENTER;
 		ltextf = DI_SCREEN_LEFT_BOTTOM | DI_ITEM_LEFT_BOTTOM | DI_TEXT_ALIGN_LEFT;
+		multif = DI_SCREEN_RIGHT_TOP | DI_ITEM_RIGHT_TOP | DI_TEXT_ALIGN_RIGHT;
 		rtextf = DI_SCREEN_RIGHT_BOTTOM | DI_ITEM_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT;
 	}
 
@@ -49,10 +50,18 @@ class LaserUI : BaseStatusBar
 		// Start by gathering all our numbers.
 		hpval = plr.health;
 		armoramount = plr.CountInv("ShieldToken");
+
 		let scr = plr.score;
+
 		let multiplier = plr.CountInv("Multiplier");
 		let combo = clamp(0, plr.combometer,250.)/250.;
 		let combometer = plr.combometer; // placeholder
+
+		let wpn = LaserGun(plr.player.readyweapon);
+		let lvl = wpn.GetLevel(); 
+		let upg = plr.CountInv("UpgradeToken");
+		if(lvl < 5) { upg = upg % 200; }
+		let bombs = plr.CountInv("Bomb");
 
 		// And now the fun part.
 		beginHUD();
@@ -61,10 +70,14 @@ class LaserUI : BaseStatusBar
 		DrawString(mBigFont, FormatNumber(armoramount,3,format:FNF_FILLZEROS),(44,-16),ltextf, Font.CR_CYAN);
 		DrawString(mBigFont, FormatNumber(hpval,3,format:FNF_FILLZEROS),(44,-36),ltextf, Font.CR_BRICK);
 
-		// Right panel, multiplier and combo state.
-		DrawString(mBigFont, "X"..FormatNumber(multiplier,3),(-44,-36),rtextf,Font.CR_RED);
-		DrawString(mConFont, FormatNumber(combometer,1),(-44,-16),rtextf,Font.CR_DARKRED);
+		// Top Right panel, multiplier and combo state.
+		DrawString(mBigFont, "X"..FormatNumber(multiplier,3),(-44,36),multif,Font.CR_RED);
+		DrawString(mConFont, FormatNumber(combometer,3,format:FNF_FILLZEROS),(-44,16),multif,Font.CR_DARKRED);
 
+		// Bottom Right panel, weapon/bomb info.
+		DrawString(mBigFont, FormatNumber(lvl,1),(-44,-36),rtextf,Font.CR_GREEN);
+		DrawString(mConFont, FormatNumber(upg,3,format:FNF_FILLZEROS),(-44,-16),rtextf,Font.CR_BLUE);
+		DrawString(mBigFont, FormatNumber(bombs,1),(-128, -36),rtextf, Font.CR_BLUE);
 
 		// Score.
 		DrawString(mConFont, FormatNumber(scr,10,format:FNF_FILLZEROS), (0,-32), ctextf, Font.CR_WHITE);
