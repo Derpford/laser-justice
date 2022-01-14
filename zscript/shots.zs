@@ -202,6 +202,7 @@ class LaserTrail : Actor
 	Default
 	{
 		+NOINTERACTION;
+		+BRIGHT;
 		Scale 0.5;
 		//RenderStyle "Add";
 	}
