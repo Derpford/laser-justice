@@ -81,7 +81,7 @@ class Megashield : Inventory replaces Megasphere
 	override bool TryPickup(in out actor toucher)
 	{
 		toucher.A_GiveInventory("HealthBonus",200);
-		toucher.A_GiveInventory("BigShield");
+		toucher.A_GiveInventory("ShieldToken",100);
 		GoAwayAndDie();
 		return true;
 	}
