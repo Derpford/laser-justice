@@ -23,16 +23,34 @@ class Gunlimiter : PowerupGiver replaces Berserk
 	}
 }
 
+class Bomb : Inventory
+{
+	// Blow up your foes for great justice.
+	default
+	{
+		Inventory.Amount 1;
+		Inventory.MaxAmount 5;
+	}
+}
+
 class LaserGun : Weapon
 {
 	// The only gun a Paladin of LASER JUSTICE needs.
+
+	int bombtimer;
 
 	default
 	{
 
 	}
 
-	action int GetLevel()
+	override void Tick()
+	{
+		Super.Tick();
+		bombtimer = max(bombtimer-1, 0);
+	}
+
+	action clearscope int GetLevel()
 	{
 		int tokens = invoker.owner.countinv("UpgradeToken");
 		int lvl = min(floor(tokens/200.),5);
@@ -79,6 +97,39 @@ class LaserGun : Weapon
 				A_StartSound("weapons/laserf3");
 				if(gunlimited < 1) { break; }
 
+		}
+	}
+
+	action void UseBomb()
+	{
+		if(invoker.bombtimer == 0 && invoker.owner.CountInv("Bomb")>0)
+		{
+			A_StartSound("weapons/bombf",666);
+			invoker.owner.A_Explode(32,512,flags:XF_NOTMISSILE);
+			ThinkerIterator bomb = ThinkerIterator.Create("Actor");
+			Actor mo;
+			while(mo = Actor(bomb.Next()))
+			{
+				if(mo == invoker.owner || mo is "Inventory")
+				{
+					continue;
+				}
+				if(mo.bMISSILE)
+				{
+					mo.SetState(mo.ResolveState("Death"));
+					continue;
+				}
+				if(invoker.owner.Vec3To(mo).Length() <= 512)
+				{
+					double scalar = (256 - invoker.owner.Vec3To(mo).Length())/256.;
+					mo.bSKULLFLY = true;
+					mo.vel = invoker.owner.Vec3To(mo).Unit() * (1024 * scalar) / float(mo.mass);
+					mo.vel.z += 12 * scalar;
+				}
+			}
+
+			invoker.bombtimer = 20;
+			invoker.owner.A_TakeInventory("Bomb",1);
 		}
 	}
 
@@ -148,6 +199,10 @@ class LaserGun : Weapon
 			PISG A 1 FireLaserGun(GetLevel());
 			PISG B 2 SetFireTics(GetLevel(),false);
 			PISG C 2 SetFireTics(GetLevel(),true);
+			Goto Ready;
+
+		AltFire:
+			PISG A 0 UseBomb();
 			Goto Ready;
 	}
 }
