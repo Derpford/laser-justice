@@ -22,21 +22,24 @@ class ShieldToken : Inventory
 		{
 
 			newdmg = 0;
-			if(owner.CountInv("ShieldToken")>5)
-			{
-				owner.A_StartSound("misc/shieldf");
-			}
-			else
-			{
-				owner.A_StartSound("misc/shieldx");
-			}
 			if(!blocked)
 			{
-				// Mini-bomb.
-				let plr = LaserPaladin(owner);
-				if(plr) { plr.MiniBomb(); }
-				if(mod != "Slime") { owner.A_TakeInventory("ShieldToken",10); }
-				blocked = true;
+				if(src) // Ignore damage that doesn't have a source.
+				{ 
+					if(owner.CountInv("ShieldToken")>5)
+					{
+						owner.A_StartSound("misc/shieldf");
+					}
+					else
+					{
+						owner.A_StartSound("misc/shieldx");
+					}
+					// Mini-bomb and take some shieldtokens, but only if this is not floor damage.
+					let plr = LaserPaladin(owner);
+					if(plr) { plr.MiniBomb(); }
+					owner.A_TakeInventory("ShieldToken",10); 
+					blocked = true;
+				}
 			}
 		}
 	}
