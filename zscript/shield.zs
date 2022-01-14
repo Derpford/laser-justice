@@ -12,7 +12,9 @@ class ShieldToken : Inventory
 	{
 		if(passive)
 		{
-			owner.A_RadiusThrust(256);
+			owner.A_Explode(32,256,flags:XF_NOTMISSILE);
+			owner.A_RadiusThrust(64,256,RTF_THRUSTZ|RTF_NOTMISSILE);
+			owner.A_RadiusThrust(256,256,RTF_NOTMISSILE); // gross hack for separate XY and Z vels
 			newdmg = 0;
 			if(owner.CountInv("ShieldToken")>5)
 			{
