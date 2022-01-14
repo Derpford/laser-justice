@@ -159,7 +159,7 @@ class LaserGun : Weapon
 		{
 			case 5: // omega shot
 				A_SetTics(5);
-				A_FireProjectile("SmallBeamShot");
+				A_FireProjectile("MiniBusterLaser");
 				A_StartSound("weapons/laserf3");
 				if(gunlimited < 1) { break; }
 			case 4: // buster shot

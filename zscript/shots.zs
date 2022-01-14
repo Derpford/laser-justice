@@ -196,6 +196,32 @@ class BusterLaser : LaserShot
 	}
 }
 
+class MiniBusterLaser : BusterLaser
+{
+	// Only one explosion.
+
+	states
+	{
+		Death:
+			LSML A 3 
+			{ 
+				A_Explode(16,128,0,fulldamagedistance:128); blasts += 1; 
+				A_StartSound("weapons/busterx");
+				for(int i = 0; i < 360; i += 45)
+				{
+					A_SpawnItemEX("LaserTrail",xvel:16,angle:i);
+				}
+				A_SetScale(2);
+			}
+			LAS1 B 1 A_SetScale(3);
+			LRNG A 1 A_SetScale(3.5);
+			LRNG B 1 A_SetScale(4);
+			LRNG A 0 ;
+			TNT1 A 0;
+			Stop;
+	}
+}
+
 class LaserTrail : Actor
 {
 	// A trail of rings behind a laser shot.
