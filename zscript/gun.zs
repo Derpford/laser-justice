@@ -195,14 +195,14 @@ class LaserGun : Weapon
 				if(secondframe)
 				{
 					A_StartSound("weapons/laserf",10);
-					A_FireProjectile("SmallBeamShot",12,spawnofs_xy:-12);
-					A_FireProjectile("SmallBeamShot",-12,spawnofs_xy:12);
+					A_FireProjectile("SmallBeamShot",-3,spawnofs_xy:-12);
+					A_FireProjectile("SmallBeamShot",3,spawnofs_xy:12);
 				}
 				else
 				{
 					A_StartSound("weapons/laserf2",20);
-					A_FireProjectile("LaserShot",4,spawnofs_xy:-4);
-					A_FireProjectile("LaserShot",-4,spawnofs_xy:4);
+					A_FireProjectile("LaserShot",spawnofs_xy:-4);
+					A_FireProjectile("LaserShot",spawnofs_xy:4);
 				}
 				if(gunlimited < 1) { break; }
 			case 4: // buster shot
