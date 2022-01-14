@@ -5,6 +5,7 @@ class LaserShot : Actor
 	{
 		Species "Laser";
 		+THRUSPECIES;
+		+BRIGHT;
 		Projectile;
 		//RenderStyle "Add";
 		DamageFunction (8);
