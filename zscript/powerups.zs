@@ -7,7 +7,7 @@ class Orbiter : Actor
 		-VULNERABLE; // AoE damage does not affect orbs.
 		Health 50;
 		Height 32;
-		RenderStyle "Translucent";
+		RenderStyle "Add";
 		Species "Laser";
 	}
 
@@ -36,6 +36,7 @@ class OrbiterManager : Inventory replaces Blursphere
 		Inventory.Amount 1;
 		Inventory.MaxAmount 5;
 		+BRIGHT;
+		+COUNTITEM;
 	}
 
 	override void DoEffect()
@@ -74,6 +75,7 @@ class Megashield : Inventory replaces Megasphere
 	default
 	{
 		+BRIGHT;
+		+COUNTITEM;
 	}
 	// Gives 200 health and max shield.
 	override bool TryPickup(in out actor toucher)

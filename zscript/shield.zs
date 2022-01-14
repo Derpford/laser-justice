@@ -30,6 +30,11 @@ class ShieldToken : Inventory
 class ShieldTokenGiver : Inventory
 {
 
+	default
+	{
+		+BRIGHT;
+	}
+
 	override bool TryPickup(in out Actor other)
 	{
 		// All subclasses of ShieldToken give ShieldTokens.

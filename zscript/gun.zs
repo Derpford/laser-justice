@@ -4,6 +4,7 @@ class Gunlimiter : PowerupGiver replaces Berserk
 	default
 	{
 		+COUNTITEM;
+		+BRIGHT;
 		Inventory.PickupMessage "GUNLIMITED POWER!!!";
 		Inventory.MaxAmount 0;
 		Powerup.Type "PowerWeaponLevel2";

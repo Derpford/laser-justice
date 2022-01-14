@@ -1,5 +1,10 @@
 class MultiScore : ScoreItem
 {
+	default
+	{
+		+BRIGHT;
+	}
+
 	// A multiplier-aware ScoreItem.
 	override bool TryPickup(in out Actor toucher)
 	{

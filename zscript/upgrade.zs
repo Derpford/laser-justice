@@ -6,6 +6,7 @@ class UpgradeToken : Ammo
 	{
 		Inventory.MaxAmount 9999;
 		Inventory.PickupMessage "Upgrade Token";
+		+BRIGHT;
 	}
 
 	override string PickupMessage()
