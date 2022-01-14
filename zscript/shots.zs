@@ -3,6 +3,8 @@ class LaserShot : Actor
 	// A basic laser blast.
 	Default
 	{
+		Species "Laser";
+		+THRUSPECIES;
 		Projectile;
 		//RenderStyle "Add";
 		DamageFunction (8);
