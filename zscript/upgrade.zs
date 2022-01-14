@@ -152,7 +152,7 @@ class WeaponUpgradeToken : UpgradeToken
 	states
 	{
 		Spawn:
-			GEM3 E -1;
+			GEM3 ABCDE 2;
 			Loop;
 	}
 }
