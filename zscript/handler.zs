@@ -57,10 +57,13 @@ class ComboHandler : EventHandler
 {
 	override void WorldThingDied(WorldEvent e)
 	{
-		let plr = LaserPaladin(e.inflictor.target);
-		if(plr)
+		if(e.inflictor.target)
 		{
-			plr.combometer += e.thing.SpawnHealth();
+			let plr = LaserPaladin(e.inflictor.target);
+			if(plr)
+			{
+				plr.combometer += e.thing.SpawnHealth();
+			}
 		}
 	}
 }
