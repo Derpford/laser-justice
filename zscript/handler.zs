@@ -52,3 +52,15 @@ class CoinHandler : EventHandler
 		}
 	}
 }
+
+class ComboHandler : EventHandler
+{
+	override void WorldThingDied(WorldEvent e)
+	{
+		let plr = LaserPaladin(e.inflictor.target);
+		if(plr)
+		{
+			plr.combometer += e.thing.SpawnHealth();
+		}
+	}
+}

@@ -1,3 +1,32 @@
+class Multiplier : Inventory
+{
+	// Exists to multiply score items.
+
+	default
+	{
+		Inventory.MaxAmount 999; // If you can get this high a multiplier, you're a god.
+	}
+
+	override bool HandlePickup(Inventory item)
+	{
+		if(item is "ScoreItem")
+		{
+			item.amount *= owner.CountInv("Multiplier")+1; // Start at x2.
+		}
+
+		return false;
+	}
+
+	override void ModifyDamage(int dmg, Name mod, out int newdmg, bool passive, Actor inf, Actor src, int flags)
+	{
+		if(passive)
+		{
+			owner.A_TakeInventory("Multiplier",ceil(owner.CountInv("Multiplier")/2.));
+		}
+		Super.ModifyDamage(dmg,mod,newdmg,passive,inf,src,flags);
+	}
+}
+
 class LaserPaladin : DoomPlayer
 {
 	// A Paladin of Laser Justice.
@@ -6,6 +35,8 @@ class LaserPaladin : DoomPlayer
 	int iframes; // How long we've been intangible; counts up.
 	int maxiframes; // How long we get iframes for when dodging.
 	bool invuln; // Are we currently intangible?
+
+	int combometer; // Once it reaches a certain point, you get a Multiplier.
 
 	Property iframes : maxiframes;
 
@@ -20,6 +51,7 @@ class LaserPaladin : DoomPlayer
 		Super.PostBeginPlay();
 		dodgetimer = 1; // Don't dodge on frame zero, silly.
 	}
+
 
 	void DrawInvSparkles()
 	{
@@ -70,6 +102,12 @@ class LaserPaladin : DoomPlayer
 		if(dodgetimer > 0)
 		{
 			dodgetimer -= 1;
+		}
+
+		if(combometer >= 250)
+		{
+			A_GiveInventory("Multiplier");
+			combometer -= 250;
 		}
 	}
 
