@@ -111,7 +111,7 @@ class LaserGun : Weapon
 			Actor mo;
 			while(mo = Actor(bomb.Next()))
 			{
-				if(mo == invoker.owner || mo is "Inventory")
+				if(mo == invoker.owner || !(mo.bSHOOTABLE))
 				{
 					continue;
 				}

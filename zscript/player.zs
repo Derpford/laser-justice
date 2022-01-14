@@ -73,7 +73,7 @@ class LaserPaladin : DoomPlayer
 		Actor mo;
 		while(mo = Actor(bomb.Next()))
 		{
-			if(mo == self || mo is "Inventory")
+			if(mo == self || !(mo.bSHOOTABLE))
 			{
 				continue;
 			}
