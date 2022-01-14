@@ -14,7 +14,7 @@ class Orbiter : Actor
 	override void Tick()
 	{
 		Super.Tick();
-		alpha = health/50.;
+		alpha = 0.2 + (0.8 * health/50.);
 	}
 
 	states
