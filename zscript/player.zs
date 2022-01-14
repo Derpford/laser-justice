@@ -109,7 +109,7 @@ class LaserPaladin : DoomPlayer
 			}
 			if(Vec3To(mo).Length() <= 256)
 			{
-				double scalar = (256 - Vec3To(mo).Length())/256.;
+				double scalar = 0.5 + (256 - Vec3To(mo).Length())/256.;
 				mo.bSKULLFLY = true;
 				mo.vel = Vec3To(mo).Unit() * (1024 * scalar) / float(mo.mass);
 				mo.vel.z += 12 * scalar;

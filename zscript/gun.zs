@@ -128,9 +128,9 @@ class LaserGun : Weapon
 				}
 				if(invoker.owner.Vec3To(mo).Length() <= 512)
 				{
-					double scalar = (256 - invoker.owner.Vec3To(mo).Length())/256.;
+					double scalar = 0.5 + (256 - invoker.owner.Vec3To(mo).Length())/256.;
 					mo.bSKULLFLY = true;
-					mo.vel = invoker.owner.Vec3To(mo).Unit() * (1024 * scalar) / float(mo.mass);
+					mo.vel = invoker.owner.Vec3To(mo).Unit() * (1024 * scalar) / float(mo.mass/2.);
 					mo.vel.z += 12 * scalar;
 				}
 			}
