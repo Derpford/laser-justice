@@ -34,8 +34,8 @@ class ShieldToken : Inventory
 			{
 				// Mini-bomb.
 				owner.A_Explode(32,256,flags:XF_NOTMISSILE);
-				owner.A_RadiusThrust(64,256,RTF_THRUSTZ|RTF_NOTMISSILE);
-				owner.A_RadiusThrust(256,256,RTF_NOTMISSILE); // gross hack for separate XY and Z vels
+				owner.A_RadiusThrust(128,256,RTF_THRUSTZ|RTF_NOTMISSILE);
+				owner.A_RadiusThrust(1024,256,RTF_NOTMISSILE); // gross hack for separate XY and Z vels
 
 				owner.A_TakeInventory("ShieldToken",10);
 				blocked = true;
