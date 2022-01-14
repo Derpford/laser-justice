@@ -67,7 +67,7 @@ class SilverCoin : CopperCoin
 
 	default
 	{
-		Inventory.Amount 25;
+		Inventory.Amount 10;
 	}
 
 	states
@@ -84,7 +84,7 @@ class GoldCoin : SilverCoin
 
 	default
 	{
-		Inventory.Amount 125;
+		Inventory.Amount 25;
 	}
 
 	states

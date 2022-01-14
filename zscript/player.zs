@@ -8,6 +8,12 @@ class Multiplier : Inventory
 		Inventory.Amount 1;
 	}
 
+	override void Travelled()
+	{
+		owner.A_GiveInventory("ScoreItem",countinv("Multiplier")*100);
+		owner.A_TakeInventory("Multiplier",1000);
+	}
+
 	/*
 	override bool HandlePickup(Inventory item)
 	{
@@ -40,6 +46,16 @@ class Multiplier : Inventory
 	}
 }
 
+class HealthScore: Inventory
+{
+	// Handles giving the player bonus points for staying healthy.
+	override void Travelled()
+	{
+		owner.A_GiveInventory("ScoreItem",owner.health*1000);
+		owner.A_GiveInventory("Health",100);
+	}
+}
+
 class LaserPaladin : DoomPlayer
 {
 	// A Paladin of Laser Justice.
@@ -58,6 +74,7 @@ class LaserPaladin : DoomPlayer
 		LaserPaladin.iframes 10;
 		Player.StartItem "LaserGun";
 		Player.StartItem "Multiplier";
+		+BUDDHA;
 	}
 
 	override void PostBeginPlay()

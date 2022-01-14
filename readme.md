@@ -13,5 +13,5 @@ RUN - Tap the run button to perform a DODGE. Performing a DODGE gives you some i
 ## ITEMS
 COINS - Grant you varying amounts of POINTS. Stack up a high MULTIPLIER by killing monsters without taking hits, and make those points go even further beyond!
 UPGRADE TOKENS - Every 200 UPGRADE TOKENS grants you a new weapon!
-HEALTH - Collect HEALTH pickups to not die.
+HEALTH - Collect HEALTH pickups to keep your HEALTH BONUS up. You cannot die, but you do get bonus points for being healthy!
 SHIELD TOKENS - SHIELD TOKENS not only protect you from damage, they also stop your multiplier from going down! Every 10 SHIELD TOKENS blocks 1 attack.
