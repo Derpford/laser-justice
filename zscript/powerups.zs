@@ -94,3 +94,77 @@ class Megashield : Inventory replaces Megasphere
 			MEGA ABCD 5;
 	}
 }
+
+class MoneyBags : Inventory replaces Backpack
+{
+	// A boatload of cash!
+	default
+	{
+		Inventory.PickupMessage "Found a bag full of cash!";
+	}
+
+	override bool TryPickup(in out actor toucher)
+	{
+		toucher.Spawn("MoneyFountain",toucher.pos);
+		GoAwayAndDie();
+		return true;
+	}
+
+	states
+	{
+		Spawn:
+			BPAK A -1;
+			Stop;
+	}
+}
+
+class MoneyFountain : Actor
+{
+	// Spawns a bunch of random coins over time.
+	default
+	{
+		ReactionTime 15;
+	}
+
+	void TossDrop(Name it)
+	{
+		double rad = 10;
+		let drop = Spawn(it,pos);
+		drop.vel = (frandom(-rad/2,rad/2), frandom(-rad/2,rad/2), frandom(rad,rad*2));
+	}
+
+	states
+	{
+		Spawn:
+			TNT1 A 4
+			{
+				switch(random(0,4))
+				{
+					case 0:
+						TossDrop("CopperCoin");
+						break;
+					case 1:
+						TossDrop("SilverCoin");
+						break;
+					case 2:
+						TossDrop("SilverCoin");
+						TossDrop("SilverCoin");
+						break;
+					case 3:
+						TossDrop("GoldCoin");
+						break;
+					case 4:
+						TossDrop("SilverCoin");
+						TossDrop("SilverCoin");
+						TossDrop("GoldCoin");
+						break;
+				}
+
+				A_CountDown();
+			}
+			loop;
+		Death:
+			TNT1 A 0;
+			Stop;
+	}
+}
