@@ -1,6 +1,7 @@
 version "4.7"
 
 #include "zscript/player.zs"
+#include "zscript/hud.zs"
 #include "zscript/gun.zs"
 #include "zscript/shots.zs"
 #include "zscript/upgrade.zs"
