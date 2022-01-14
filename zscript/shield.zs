@@ -8,19 +8,22 @@ class ShieldToken : Inventory
 	}
 
 
-	override void AbsorbDamage(int dmg, Name mod, out int newdmg, Actor inf, Actor src, int flags)
+	override void ModifyDamage(int dmg, Name mod, out int newdmg, bool passive, Actor inf, Actor src, int flags)
 	{
-		owner.A_RadiusThrust(256);
-		newdmg = 0;
-		if(owner.CountInv("ShieldToken")>5)
+		if(passive)
 		{
-			owner.A_StartSound("misc/shieldf");
+			owner.A_RadiusThrust(256);
+			newdmg = 0;
+			if(owner.CountInv("ShieldToken")>5)
+			{
+				owner.A_StartSound("misc/shieldf");
+			}
+			else
+			{
+				owner.A_StartSound("misc/shieldx");
+			}
+			owner.A_TakeInventory("ShieldToken",5);
 		}
-		else
-		{
-			owner.A_StartSound("misc/shieldx");
-		}
-		owner.A_TakeInventory("ShieldToken",5);
 	}
 }
 

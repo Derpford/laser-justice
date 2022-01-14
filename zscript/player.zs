@@ -28,14 +28,15 @@ class Multiplier : Inventory
 
 	}*/
 
-	override void ModifyDamage(int dmg, Name mod, out int newdmg, bool passive, Actor inf, Actor src, int flags)
+	override void AbsorbDamage(int dmg, Name mod, out int newdmg, Actor inf, Actor src, int flags)
 	{
-		if(passive)
+		console.printf("Dmg: "..dmg.." Newdmg: "..newdmg);
+		if(dmg != 0)
 		{
 			console.printf("Multiplier damage check!");
 			owner.A_TakeInventory("Multiplier",ceil(owner.CountInv("Multiplier")/2.));
 		}
-		Super.ModifyDamage(dmg,mod,newdmg,passive,inf,src,flags);
+		Super.AbsorbDamage(dmg,mod,newdmg,inf,src,flags);
 	}
 }
 
