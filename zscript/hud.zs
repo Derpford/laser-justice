@@ -58,10 +58,14 @@ class LaserUI : BaseStatusBar
 		let combometer = plr.combometer; // placeholder
 
 		let wpn = LaserGun(plr.player.readyweapon);
-		let lvl = wpn.GetLevel(); 
 		let upg = plr.CountInv("UpgradeToken");
-		if(lvl < 5) { upg = upg % 200; }
 		let bombs = plr.CountInv("Bomb");
+		let lvl = 0;
+		if(wpn)
+		{
+			lvl = wpn.GetLevel(); 
+			if(lvl < 5) { upg = upg % 200; }
+		}
 
 		// And now the fun part.
 		beginHUD();
