@@ -10,7 +10,7 @@ class UpgradeToken : Ammo
 
 	override string PickupMessage()
 	{
-		return super.PickupMessage().." [$"..amount.."]";
+		return super.PickupMessage().." ["..amount.."]";
 	}
 
 	override void Travelled()

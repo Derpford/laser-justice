@@ -5,6 +5,12 @@ class CopperCoin : ScoreItem
 	default
 	{
 		Inventory.Amount 5;
+		Inventory.PickupMessage "Points";
+	}
+
+	override string PickupMessage()
+	{
+		return super.PickupMessage().." <"..amount..">";
 	}
 
 	states
