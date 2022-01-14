@@ -21,7 +21,8 @@ class MultiScore : ScoreItem
 		{
 			if(Vec3To(plr).Length() < 128)
 			{
-				VelIntercept(plr,12);
+				//VelIntercept(plr,12);
+				vel = Vec3To(plr).Unit() * 12;
 			}
 			plr = Actor(pfind.next());
 		}
@@ -43,6 +44,7 @@ class CopperCoin : MultiScore
 	default
 	{
 		Inventory.Amount 5;
+		Scale 0.4;
 		Inventory.PickupMessage "Points";
 	}
 
