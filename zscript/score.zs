@@ -1,4 +1,15 @@
-class CopperCoin : ScoreItem
+class MultiScore : ScoreItem
+{
+	// A multiplier-aware ScoreItem.
+	override bool TryPickup(in out Actor toucher)
+	{
+		let mult = max(toucher.CountInv("Multiplier"),1);
+		amount = amount * mult;
+		return super.TryPickup(toucher);
+	}
+}
+
+class CopperCoin : MultiScore
 {
 	// Small coin. 5 points.
 

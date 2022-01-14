@@ -5,22 +5,34 @@ class Multiplier : Inventory
 	default
 	{
 		Inventory.MaxAmount 999; // If you can get this high a multiplier, you're a god.
+		Inventory.Amount 1;
 	}
 
+	/*
 	override bool HandlePickup(Inventory item)
 	{
+		Console.printf("Handling items!");
 		if(item is "ScoreItem")
 		{
-			item.amount *= owner.CountInv("Multiplier")+1; // Start at x2.
+			int amt = item.amount * owner.CountInv("Multiplier");
+			owner.A_GiveInventory("ScoreItem", amt); // Start at x2.
+			console.printf("Points <"..amt..">");
+			item.bPickupGood = true;
+
+			return true;
+		}
+		else
+		{
+			return super.HandlePickup(item);
 		}
 
-		return false;
-	}
+	}*/
 
 	override void ModifyDamage(int dmg, Name mod, out int newdmg, bool passive, Actor inf, Actor src, int flags)
 	{
 		if(passive)
 		{
+			console.printf("Multiplier damage check!");
 			owner.A_TakeInventory("Multiplier",ceil(owner.CountInv("Multiplier")/2.));
 		}
 		Super.ModifyDamage(dmg,mod,newdmg,passive,inf,src,flags);
@@ -44,6 +56,7 @@ class LaserPaladin : DoomPlayer
 	{
 		LaserPaladin.iframes 10;
 		Player.StartItem "LaserGun";
+		Player.StartItem "Multiplier";
 	}
 
 	override void PostBeginPlay()
@@ -106,6 +119,7 @@ class LaserPaladin : DoomPlayer
 
 		if(combometer >= 250)
 		{
+			console.printf("Multiplier Up!");
 			A_GiveInventory("Multiplier");
 			combometer -= 250;
 		}
