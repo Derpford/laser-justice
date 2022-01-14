@@ -12,6 +12,14 @@ class ShieldToken : Inventory
 	{
 		owner.A_RadiusThrust(256);
 		newdmg = 0;
+		if(owner.CountInv("ShieldToken")>5)
+		{
+			owner.A_StartSound("misc/shieldf");
+		}
+		else
+		{
+			owner.A_StartSound("misc/shieldx");
+		}
 		owner.A_TakeInventory("ShieldToken",5);
 	}
 }

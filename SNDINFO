@@ -7,3 +7,7 @@ weapons/laserf3 LASFIRE3
 
 weapons/laserf4 LASFIRE3
 $pitchset weapons/laserf4 1.2
+
+
+misc/shieldf SHHIT1
+misc/shieldx SHHIT2
