@@ -15,6 +15,12 @@ class Gunlimiter : PowerupGiver replaces Berserk
 		inventory.respawntics 4230;
 	}
 
+	override bool TryPickup(in out actor toucher)
+	{
+		toucher.A_GiveInventory("Health",100);
+		super.TryPickup(toucher);
+	}
+
 	states
 	{
 		Spawn:
