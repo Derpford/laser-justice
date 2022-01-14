@@ -50,6 +50,11 @@ class ShieldTokenGiver : Inventory
 		+BRIGHT;
 	}
 
+	override string PickupMessage()
+	{
+		return super.PickupMessage().." <"..amount..">";
+	}
+
 	override bool TryPickup(in out Actor other)
 	{
 		// All subclasses of ShieldToken give ShieldTokens.
