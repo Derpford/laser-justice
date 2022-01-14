@@ -37,6 +37,7 @@ class OrbiterManager : Inventory replaces Blursphere
 		Inventory.MaxAmount 5;
 		+BRIGHT;
 		+COUNTITEM;
+		inventory.PickupMessage "Deflector Orb!";
 	}
 
 	override void DoEffect()
@@ -76,6 +77,7 @@ class Megashield : Inventory replaces Megasphere
 	{
 		+BRIGHT;
 		+COUNTITEM;
+		Inventory.PickupMessage "Mega Shield Booster!";
 	}
 	// Gives 200 health and max shield.
 	override bool TryPickup(in out actor toucher)
