@@ -33,31 +33,8 @@ class ShieldToken : Inventory
 			if(!blocked)
 			{
 				// Mini-bomb.
-				owner.A_Explode(32,256,flags:XF_NOTMISSILE);
-				//owner.A_RadiusThrust(128,256,RTF_THRUSTZ|RTF_NOTMISSILE);
-				//owner.A_RadiusThrust(1024,256,RTF_NOTMISSILE); // gross hack for separate XY and Z vels
-				ThinkerIterator bomb = ThinkerIterator.Create("Actor");
-				Actor mo;
-				while(mo = Actor(bomb.Next()))
-				{
-					if(mo == owner || mo is "Inventory")
-					{
-						continue;
-					}
-					if(mo.bMISSILE)
-					{
-						mo.SetState(mo.ResolveState("Death"));
-						continue;
-					}
-					if(owner.Vec3To(mo).Length() <= 256)
-					{
-						double scalar = (256 - owner.Vec3To(mo).Length())/256.;
-						mo.bSKULLFLY = true;
-						mo.vel = owner.Vec3To(mo).Unit() * (1024 * scalar) / float(mo.mass);
-						mo.vel.z += 12 * scalar;
-					}
-				}
-
+				let plr = LaserPaladin(owner);
+				if(plr) { plr.MiniBomb(); }
 				owner.A_TakeInventory("ShieldToken",10);
 				blocked = true;
 			}

@@ -66,6 +66,31 @@ class LaserPaladin : DoomPlayer
 		dodgetimer = 1; // Don't dodge on frame zero, silly.
 	}
 
+	void MiniBomb()
+	{
+		A_Explode(32,256,flags:XF_NOTMISSILE);
+		ThinkerIterator bomb = ThinkerIterator.Create("Actor");
+		Actor mo;
+		while(mo = Actor(bomb.Next()))
+		{
+			if(mo == self || mo is "Inventory")
+			{
+				continue;
+			}
+			if(mo.bMISSILE)
+			{
+				mo.SetState(mo.ResolveState("Death"));
+				continue;
+			}
+			if(Vec3To(mo).Length() <= 256)
+			{
+				double scalar = (256 - Vec3To(mo).Length())/256.;
+				mo.bSKULLFLY = true;
+				mo.vel = Vec3To(mo).Unit() * (1024 * scalar) / float(mo.mass);
+				mo.vel.z += 12 * scalar;
+			}
+		}
+	}
 
 	void DrawInvSparkles()
 	{
