@@ -54,6 +54,7 @@ class BombBurst : Actor
 			if(mo.bMISSILE && mo.species != "Laser" && Vec3To(mo).Length()<=512)
 			{
 				mo.SetState(mo.ResolveState("Death"));
+				mo.bMISSILE = false;
 			}
 		}
 	}
