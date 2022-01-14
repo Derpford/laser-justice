@@ -35,7 +35,7 @@ class SmallLaserShot : LaserShot
 	// A smaller laser blast.
 	Default
 	{
-		DamageFunction (4);
+		DamageFunction (6);
 	}
 
 	states
