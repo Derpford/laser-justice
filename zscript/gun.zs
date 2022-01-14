@@ -97,6 +97,10 @@ class LaserGun : Weapon
 	{
 		Super.Tick();
 		bombtimer = max(bombtimer-1, 0);
+		if(bombtimer == 0 && owner.GetPlayerInput(INPUT_BUTTONS) & BT_ALTATTACK)
+		{
+			UseBomb();
+		}
 	}
 
 	action clearscope int GetLevel()
@@ -251,10 +255,6 @@ class LaserGun : Weapon
 			PISG A 1 FireLaserGun(GetLevel());
 			PISG B 2 SetFireTics(GetLevel(),false);
 			PISG C 2 SetFireTics(GetLevel(),true);
-			Goto Ready;
-
-		AltFire:
-			PISG A 0 UseBomb();
 			Goto Ready;
 	}
 }
