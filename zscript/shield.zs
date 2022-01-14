@@ -35,7 +35,7 @@ class ShieldToken : Inventory
 				// Mini-bomb.
 				let plr = LaserPaladin(owner);
 				if(plr) { plr.MiniBomb(); }
-				owner.A_TakeInventory("ShieldToken",10);
+				if(mod != "Slime") { owner.A_TakeInventory("ShieldToken",10); }
 				blocked = true;
 			}
 		}

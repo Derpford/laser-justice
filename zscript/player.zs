@@ -43,7 +43,7 @@ class Multiplier : Inventory
 
 	override void AbsorbDamage(int dmg, Name mod, out int newdmg, Actor inf, Actor src, int flags)
 	{
-		if(dmg != 0 && mercytimer != 0)
+		if(dmg != 0 && mercytimer == 0)
 		{
 			owner.A_TakeInventory("Multiplier",ceil(owner.CountInv("Multiplier")/2.));
 			mercytimer = 35;
