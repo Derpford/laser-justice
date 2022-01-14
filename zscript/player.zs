@@ -160,12 +160,12 @@ class LaserPaladin : DoomPlayer
 			dodgetimer -= 1;
 		}
 
-		if(combometer >= 250)
+		if(combometer >= 250 - health)
 		{
 			console.printf("Multiplier Up!");
 			A_GiveInventory("Multiplier");
 			A_GiveInventory("Bomb");
-			combometer -= 250;
+			combometer -= (250 - health);
 		}
 	}
 
