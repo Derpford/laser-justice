@@ -47,6 +47,19 @@ class BombBurst : Actor
 	{
 		super.tick();
 		blasts += 1;
+
+		// Visuals.
+		if(GetAge()%5 == 0)
+		{
+			for(int i = 0; i < 4; i++)
+			{
+				for(int j = 0; j < 360; j += 45)
+				{
+					A_SpawnItemEX("BombSparkle",128*(i+1),xvel:frandom(-2,2),yvel:frandom(-2,2),zvel:2,angle:j+(15*i));
+				}
+			}
+		}
+
 		ThinkerIterator bomb = ThinkerIterator.Create("Actor");
 		Actor mo;
 		while(mo = Actor(bomb.Next()))
@@ -78,6 +91,24 @@ class BombBurst : Actor
 				}
 			}
 			TNT1 A 0;
+			Stop;
+	}
+}
+
+class BombSparkle : Actor
+{
+	// Sparkly.
+
+	default
+	{
+		+NOINTERACTION;
+		+BRIGHT;
+	}
+
+	states
+	{
+		Spawn:
+			SPK2 ABCDABCD 4;
 			Stop;
 	}
 }
