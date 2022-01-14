@@ -81,7 +81,12 @@ class LaserUI : BaseStatusBar
 		// Bottom Right panel, weapon/bomb info.
 		DrawString(mBigFont, FormatNumber(lvl,1),(-44,-36),rtextf,Font.CR_GREEN);
 		DrawString(mConFont, FormatNumber(upg,3,format:FNF_FILLZEROS),(-44,-16),rtextf,Font.CR_BLUE);
-		DrawString(mBigFont, FormatNumber(bombs,1),(-128, -36),rtextf, Font.CR_BLUE);
+
+		for(int i = 0; i < bombs; i++)
+		{
+			DrawImage("ROCKA0",(-144+(18*i),-16),rightbarf);
+		}
+		//DrawString(mBigFont, FormatNumber(bombs,1),(-128, -36),rtextf, Font.CR_BLUE);
 
 		// Score.
 		DrawString(mConFont, FormatNumber(scr,10,format:FNF_FILLZEROS), (0,-32), ctextf, Font.CR_WHITE);
