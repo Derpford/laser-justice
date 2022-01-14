@@ -15,5 +15,8 @@ $attenuation weapons/busterx 0.3
 
 weapons/bombf BOMBFIRE
 
+weapons/mbombf BOMBFIRE
+$pitchset weapons/mbombf 1.3
+
 misc/shieldf SHHIT1
 misc/shieldx SHHIT2

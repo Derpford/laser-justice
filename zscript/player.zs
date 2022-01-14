@@ -68,6 +68,7 @@ class LaserPaladin : DoomPlayer
 
 	int dodgetimer; // How long until we can dodge again; counts down.
 	int iframes; // How long we've been intangible; counts up.
+	bool bombed; // Have we triggered a parry bomb yet?
 	int maxiframes; // How long we get iframes for when dodging.
 	bool invuln; // Are we currently intangible?
 
@@ -122,6 +123,24 @@ class LaserPaladin : DoomPlayer
 		if(A_Overlay(i,"Sparkle",true)) // Only set the overlay's position on a new frame.
 		{
 			A_OverlayOffset(i,frandom(-24,24),frandom(-24,-72));
+		}
+	}
+
+	override int DamageMobj(Actor inf, Actor src, int dmg, Name mod, int flags, double ang)
+	{
+		if(invuln)
+		{
+			if(iframes < 3 && !bombed)
+			{
+				A_StartSound("weapons/mbombf");
+				MiniBomb();
+				bombed = true;
+			}
+			return 0;
+		}
+		else
+		{
+			return super.DamageMobj(inf,src,dmg,mod,flags,ang);
 		}
 	}
 
