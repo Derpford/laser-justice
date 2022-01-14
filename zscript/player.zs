@@ -8,6 +8,7 @@ class Multiplier : Inventory
 	{
 		Inventory.MaxAmount 999; // If you can get this high a multiplier, you're a god.
 		Inventory.Amount 1;
+		+Inventory.KEEPDEPLETED;
 	}
 
 	override void DoEffect()
