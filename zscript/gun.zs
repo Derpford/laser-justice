@@ -67,7 +67,7 @@ class BombBurst : Actor
 			LRNG B 1 A_SetScale(4);
 			LRNG A 0 
 			{
-				if(blasts < 35)
+				if(blasts < 70)
 				{
 					return ResolveState("Spawn");
 				}
