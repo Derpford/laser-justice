@@ -35,6 +35,7 @@ class OrbiterManager : Inventory replaces Blursphere
 	{
 		Inventory.Amount 1;
 		Inventory.MaxAmount 5;
+		+BRIGHT;
 	}
 
 	override void DoEffect()
