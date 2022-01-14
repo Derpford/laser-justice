@@ -18,7 +18,7 @@ class UpgradeToken : Ammo
 	{
 		// Take all Upgrade Tokens between maps, and convert them into score.
 		owner.A_GiveInventory("ScoreItem",countinv("UpgradeToken")*10);
-		owner.A_TakeInventory("UpgradeToken",1000);
+		owner.A_TakeInventory("UpgradeToken",99999);
 	}
 }
 
