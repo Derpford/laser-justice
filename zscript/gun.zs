@@ -39,6 +39,48 @@ class Bomb : Inventory
 	}
 }
 
+class BombBurst : Actor
+{
+	int blasts;
+	// Remains for a bit, cleaning up projectiles in an area.
+	override void Tick()
+	{
+		super.tick();
+		blasts += 1;
+		ThinkerIterator bomb = ThinkerIterator.Create("Actor");
+		Actor mo;
+		while(mo = Actor(bomb.Next()))
+		{
+			if(mo.bMISSILE && mo.species != "Laser" && Vec3To(mo).Length()<=512)
+			{
+				mo.SetState(mo.ResolveState("Death"));
+			}
+		}
+	}
+
+	states
+	{
+		Spawn:
+			LSML A 3 A_SetScale(2); 
+			LAS1 B 1 A_SetScale(3);
+			LRNG A 1 A_SetScale(3.5);
+			LRNG B 1 A_SetScale(4);
+			LRNG A 0 
+			{
+				if(blasts < 35)
+				{
+					return ResolveState("Spawn");
+				}
+				else
+				{
+					return ResolveState("null");
+				}
+			}
+			TNT1 A 0;
+			Stop;
+	}
+}
+
 class LaserGun : Weapon
 {
 	// The only gun a Paladin of LASER JUSTICE needs.
@@ -111,6 +153,7 @@ class LaserGun : Weapon
 	{
 		if(invoker.bombtimer == 0 && invoker.owner.CountInv("Bomb")>0)
 		{
+			Spawn("BombBurst",invoker.owner.pos);
 			A_StartSound("weapons/bombf",666);
 			invoker.owner.A_Explode(32,512,flags:XF_NOTMISSILE);
 			ThinkerIterator bomb = ThinkerIterator.Create("Actor");
