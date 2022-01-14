@@ -13,5 +13,7 @@ $limit weapons/busterx 0
 $volume weapons/busterx 0.5
 $attenuation weapons/busterx 0.3
 
+weapons/bombf BOMBFIRE
+
 misc/shieldf SHHIT1
 misc/shieldx SHHIT2
