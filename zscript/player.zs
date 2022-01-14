@@ -96,13 +96,14 @@ class LaserPaladin : DoomPlayer
 		Actor mo;
 		while(mo = Actor(bomb.Next()))
 		{
-			if(mo == self || !(mo.bSHOOTABLE))
-			{
-				continue;
-			}
 			if(mo.bMISSILE)
 			{
-				mo.SetState(mo.ResolveState("Death"));
+				//mo.SetState(mo.ResolveState("Death"));
+				mo.A_Remove(AAPTR_DEFAULT);
+				continue;
+			}
+			if(mo == self || !(mo.bSHOOTABLE))
+			{
 				continue;
 			}
 			if(Vec3To(mo).Length() <= 256)

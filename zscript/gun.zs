@@ -18,7 +18,7 @@ class Gunlimiter : PowerupGiver replaces Berserk
 	override bool TryPickup(in out actor toucher)
 	{
 		toucher.A_GiveInventory("Health",100);
-		super.TryPickup(toucher);
+		return super.TryPickup(toucher);
 	}
 
 	states
@@ -117,13 +117,13 @@ class LaserGun : Weapon
 			Actor mo;
 			while(mo = Actor(bomb.Next()))
 			{
-				if(mo == invoker.owner || !(mo.bSHOOTABLE))
-				{
-					continue;
-				}
 				if(mo.bMISSILE)
 				{
 					mo.SetState(mo.ResolveState("Death"));
+					continue;
+				}
+				if(mo == invoker.owner || !(mo.bSHOOTABLE))
+				{
 					continue;
 				}
 				if(invoker.owner.Vec3To(mo).Length() <= 512)
