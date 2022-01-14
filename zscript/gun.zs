@@ -64,11 +64,19 @@ class BombBurst : Actor
 		Actor mo;
 		while(mo = Actor(bomb.Next()))
 		{
-			if(mo.bMISSILE && mo.species != "Laser" && Vec3To(mo).Length()<=512)
+			if(Vec3To(mo).Length()<=512)
 			{
-				mo.SetState(mo.ResolveState("Death"));
-				mo.vel = (0, 0, 0);
-				mo.bMISSILE = false;
+				if(mo.bMISSILE && mo.species != "Laser")
+				{
+					mo.SetState(mo.ResolveState("Death"));
+					mo.vel = (0, 0, 0);
+					mo.bMISSILE = false;
+				}
+
+				if(!(mo is "LaserPaladin") && mo.bISMONSTER && !mo.bCORPSE && !(mo.InStateSequence(mo.curstate,mo.ResolveState("Pain"))))
+				{
+					mo.SetState(mo.ResolveState("Pain"));
+				}
 			}
 		}
 	}
