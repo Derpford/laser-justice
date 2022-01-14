@@ -1,8 +1,30 @@
 class MultiScore : ScoreItem
 {
+	ThinkerIterator pfind;
 	default
 	{
 		+BRIGHT;
+	}
+
+	override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+		pfind = ThinkerIterator.Create("LaserPaladin");
+	}
+
+	override void Tick()
+	{
+		Super.Tick();
+		Actor plr;
+		plr = Actor(pfind.next());
+		while(plr)
+		{
+			if(Vec3To(plr).Length() < 128)
+			{
+				VelIntercept(plr,12);
+			}
+			plr = Actor(pfind.next());
+		}
 	}
 
 	// A multiplier-aware ScoreItem.
