@@ -46,6 +46,7 @@ class Multiplier : Inventory
 		if(dmg != 0 && mercytimer == 0)
 		{
 			owner.A_TakeInventory("Multiplier",ceil(owner.CountInv("Multiplier")/2.));
+			owner.score = floor(owner.score/2.);
 			mercytimer = 35;
 		}
 		Super.AbsorbDamage(dmg,mod,newdmg,inf,src,flags);
