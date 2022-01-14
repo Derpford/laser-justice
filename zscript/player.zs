@@ -2,12 +2,18 @@ class Multiplier : Inventory
 {
 	// Exists to multiply score items.
 
+	int mercytimer;
+
 	default
 	{
 		Inventory.MaxAmount 999; // If you can get this high a multiplier, you're a god.
 		Inventory.Amount 1;
 	}
 
+	override void DoEffect()
+	{
+		mercytimer = max(mercytimer-1,0);
+	}
 	override void Travelled()
 	{
 		owner.A_GiveInventory("ScoreItem",countinv("Multiplier")*100);
@@ -36,11 +42,10 @@ class Multiplier : Inventory
 
 	override void AbsorbDamage(int dmg, Name mod, out int newdmg, Actor inf, Actor src, int flags)
 	{
-		console.printf("Dmg: "..dmg.." Newdmg: "..newdmg);
-		if(dmg != 0)
+		if(dmg != 0 && mercytimer != 0)
 		{
-			console.printf("Multiplier damage check!");
 			owner.A_TakeInventory("Multiplier",ceil(owner.CountInv("Multiplier")/2.));
+			mercytimer = 35;
 		}
 		Super.AbsorbDamage(dmg,mod,newdmg,inf,src,flags);
 	}
