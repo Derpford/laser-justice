@@ -61,6 +61,7 @@ class LaserGun : Weapon
 	{
 		// Handles firing the various stages of the LaserGun.
 		int gunlimited = invoker.owner.CountInv("PowerWeaponLevel2");
+		if(gunlimited > 0 && lvl == 0) { lvl = 1; }
 		switch(lvl)
 		{
 			case 5: // omega shot
@@ -136,6 +137,7 @@ class LaserGun : Weapon
 	action void SetFireTics(int lvl, bool secondframe = false)
 	{
 		int gunlimited = invoker.owner.CountInv("PowerWeaponLevel2");
+		if(gunlimited > 0 && lvl == 0) { lvl = 1; }
 
 		switch(lvl)
 		{
