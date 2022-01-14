@@ -80,6 +80,22 @@ class ShieldBit : ShieldTokenGiver replaces ArmorBonus
 	}
 }
 
+class MiniShield : ShieldTokenGiver replaces Radsuit
+{
+	default
+	{
+		Inventory.Amount 25;
+		Inventory.PickupMessage "Mini Shield!";
+	}
+
+	states
+	{
+		Spawn:
+			CELP A -1;
+			Stop;
+	}
+}
+
 class SmallShield : ShieldTokenGiver replaces GreenArmor
 {
 	default
