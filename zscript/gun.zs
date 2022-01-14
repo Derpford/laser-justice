@@ -159,7 +159,7 @@ class LaserGun : Weapon
 		if(invoker.bombtimer == 0 && invoker.owner.CountInv("Bomb")>0)
 		{
 			Spawn("BombBurst",invoker.owner.pos);
-			A_StartSound("weapons/bombf",666);
+			invoker.owner.A_StartSound("weapons/bombf",666);
 			invoker.owner.A_Explode(32,512,flags:XF_NOTMISSILE);
 			ThinkerIterator bomb = ThinkerIterator.Create("Actor");
 			Actor mo;
