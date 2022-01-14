@@ -57,7 +57,7 @@ class ComboHandler : EventHandler
 {
 	override void WorldThingDied(WorldEvent e)
 	{
-		if(e.inflictor.target)
+		if(e.inflictor && e.inflictor.target)
 		{
 			let plr = LaserPaladin(e.inflictor.target);
 			if(plr)
