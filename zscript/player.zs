@@ -147,6 +147,7 @@ class LaserPaladin : DoomPlayer
 		{
 			console.printf("Multiplier Up!");
 			A_GiveInventory("Multiplier");
+			A_GiveInventory("Bomb");
 			combometer -= 250;
 		}
 	}
