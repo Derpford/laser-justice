@@ -63,6 +63,16 @@ class HealthScore: Inventory
 	}
 }
 
+class Bomb : Inventory
+{
+	// Blow up your foes for great justice.
+	default
+	{
+		Inventory.Amount 1;
+		Inventory.MaxAmount 5;
+	}
+}
+
 class LaserPaladin : DoomPlayer
 {
 	// A Paladin of Laser Justice.
@@ -76,6 +86,8 @@ class LaserPaladin : DoomPlayer
 	int combometer; // Once it reaches a certain point, you get a Multiplier.
 
 	Property iframes : maxiframes;
+
+	int bombtimer; // For real bombs.
 
 	default
 	{
@@ -91,31 +103,37 @@ class LaserPaladin : DoomPlayer
 		dodgetimer = 1; // Don't dodge on frame zero, silly.
 	}
 
-	void MiniBomb()
+	void UseBomb(int radius, bool wipe = false)
 	{
-		A_Explode(32,256,flags:XF_NOTMISSILE);
+		A_Explode(32,radius,flags:XF_NOTMISSILE);
 		ThinkerIterator bomb = ThinkerIterator.Create("Actor");
 		Actor mo;
 		while(mo = Actor(bomb.Next()))
 		{
-			if(mo.bMISSILE)
+			double dist = Vec3To(mo).Length();
+			if(mo.bMISSILE && (dist < radius || wipe))
 			{
-				//mo.SetState(mo.ResolveState("Death"));
-				mo.A_Remove(AAPTR_DEFAULT);
+				mo.SetState(mo.ResolveState("Death"));
+				mo.bMISSILE = false;
+				mo.vel = (0,0,0);
 				continue;
 			}
+
 			if(mo == self || !(mo.bSHOOTABLE))
 			{
 				continue;
 			}
-			if(Vec3To(mo).Length() <= 256)
+
+			if(Vec3To(mo).Length() <= radius)
 			{
-				double scalar = 0.5 + (256 - Vec3To(mo).Length())/256.;
+				double scalar = 0.5 + (radius - dist)/radius.;
 				mo.bSKULLFLY = true;
 				mo.vel = Vec3To(mo).Unit() * (1024 * scalar) / float(mo.mass);
 				mo.vel.z += 12 * scalar;
 			}
 		}
+
+		if(wipe) { Spawn("BombBurst",pos); }
 	}
 
 	void DrawInvSparkles()
@@ -134,7 +152,7 @@ class LaserPaladin : DoomPlayer
 			if(iframes < 3 && !bombed)
 			{
 				A_StartSound("weapons/mbombf");
-				MiniBomb();
+				UseBomb(512);
 				bombed = true;
 			}
 			return 0;
@@ -197,6 +215,13 @@ class LaserPaladin : DoomPlayer
 			}
 			combometer -= (250 - health);
 		}
+
+		bombtimer = max(bombtimer-1, 0);
+		if(bombtimer == 0 && owner.GetPlayerInput(INPUT_BUTTONS) & BT_ALTATTACK)
+		{
+			UseBomb(1024,true);
+			bombtimer = 20;
+		}
 	}
 
 	states
@@ -204,6 +229,89 @@ class LaserPaladin : DoomPlayer
 		Sparkle:
 			SPRK ABC 2;
 			TNT1 A 0;
+			Stop;
+	}
+}
+
+class BombBurst : Actor
+{
+	int blasts;
+	// Remains for a bit, cleaning up projectiles in an area.
+	override void Tick()
+	{
+		super.tick();
+		blasts += 1;
+
+		// Visuals.
+		if(GetAge()%5 == 0)
+		{
+			for(int i = 0; i < 4; i++)
+			{
+				for(int j = 0; j < 360; j += 45)
+				{
+					A_SpawnItemEX("BombSparkle",128*(i+1),xvel:frandom(-2,2),yvel:frandom(-2,2),zvel:2,angle:j+(15*i));
+				}
+			}
+		}
+
+		ThinkerIterator bomb = ThinkerIterator.Create("Actor");
+		Actor mo;
+		while(mo = Actor(bomb.Next()))
+		{
+			if(Vec3To(mo).Length()<=512)
+			{
+				if(mo.bMISSILE && mo.species != "Laser")
+				{
+					mo.SetState(mo.ResolveState("Death"));
+					mo.vel = (0, 0, 0);
+					mo.bMISSILE = false;
+				}
+
+				if(!(mo is "LaserPaladin") && mo.bISMONSTER && !mo.bCORPSE && !(mo.InStateSequence(mo.curstate,mo.ResolveState("Pain"))))
+				{
+					mo.SetState(mo.ResolveState("Pain"));
+				}
+			}
+		}
+	}
+
+	states
+	{
+		Spawn:
+			LSML A 3 A_SetScale(2); 
+			LAS1 B 1 A_SetScale(3);
+			LRNG A 1 A_SetScale(3.5);
+			LRNG B 1 A_SetScale(4);
+			LRNG A 0 
+			{
+				if(blasts < 70)
+				{
+					return ResolveState("Spawn");
+				}
+				else
+				{
+					return ResolveState("null");
+				}
+			}
+			TNT1 A 0;
+			Stop;
+	}
+}
+
+class BombSparkle : Actor
+{
+	// Sparkly.
+
+	default
+	{
+		+NOINTERACTION;
+		+BRIGHT;
+	}
+
+	states
+	{
+		Spawn:
+			SPK2 ABCDABCD 4;
 			Stop;
 	}
 }
