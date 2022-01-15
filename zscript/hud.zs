@@ -74,7 +74,6 @@ class LaserUI : BaseStatusBar
 		if(wpn)
 		{
 			lvl = wpn.GetLevel(); 
-			if(lvl < 5) { upg = upg % 200; }
 		}
 
 		// And now the fun part.
