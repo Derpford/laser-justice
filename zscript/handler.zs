@@ -25,7 +25,7 @@ class CoinHandler : EventHandler
 	void TossDrop(Actor src, Name it)
 	{
 		let this = src.Spawn(it,src.pos);
-		double rad = clamp(0,src.radius/3,10);
+		double rad = clamp(0,src.radius/5,10);
 		this.vel = (frandom(-rad/2,rad/2), frandom(-rad/2,rad/2), frandom(rad,rad*2));
 	}
 
