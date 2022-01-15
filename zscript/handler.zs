@@ -74,20 +74,20 @@ class EndScoreHandler : EventHandler
 	Array<int> val;
 	int hpval; // How much to give per point of health
 
-	override void PostBeginPlay
+	override void PostBeginPlay()
 	{
 		// Each Type and Val is a pair.
-		type = [
+		type = {
 			"UpgradeToken",
 			"ShieldToken",
 			"Multiplier" // Should always be last!
-		];
+		};
 
-		val = [
+		val = {
 			100,
 			100,
 			2 // Multiplier is exponential!
-		];
+		};
 
 		hpval = 1000;
 	}
@@ -105,7 +105,7 @@ class EndScoreHandler : EventHandler
 				// Next, count up their health.
 				plr.A_GiveInventory("ScoreItem",plr.health*mult);
 				plr.A_ResetHealth();
-				
+
 				// Next, handle all their items.
 				for(int i = 0; i < type.Size(); i++)
 				{

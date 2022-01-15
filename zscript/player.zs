@@ -91,7 +91,7 @@ class LaserPaladin : DoomPlayer
 
 			if(Vec3To(mo).Length() <= radius)
 			{
-				double scalar = 0.5 + (radius - dist)/radius.;
+				double scalar = 0.5 + (radius - dist)/radius;
 				mo.bSKULLFLY = true;
 				mo.vel = Vec3To(mo).Unit() * (1024 * scalar) / float(mo.mass);
 				mo.vel.z += 12 * scalar;
