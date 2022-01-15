@@ -12,8 +12,16 @@ class WeaponTokenHandler : EventHandler
 			}
 			else
 			{
-				e.Thing.spawn("WeaponUpgradeToken",e.Thing.pos);
+				let gem = e.Thing.spawn("WeaponUpgradeToken",e.Thing.pos);
+				gem.A_SetSpecial(e.Thing.special, 
+					e.Thing.args[0],
+					e.Thing.args[1],
+					e.Thing.args[2],
+					e.Thing.args[3],
+					e.Thing.args[4]);
 			}
+
+
 
 			wpn.Destroy();
 		}
