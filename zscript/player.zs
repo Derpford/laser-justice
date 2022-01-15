@@ -150,9 +150,13 @@ class LaserPaladin : DoomPlayer
 			dodgetimer = 35; //1-second cooldown between dodges.
 			iframes = 0;
 			invuln = true;
-			if(vel.length() > 5 || (btn & BT_JUMP))
+			if(vel.length() > 5)
 			{
 				vel = vel.Unit() * 24;
+			}
+			if(btn & BT_JUMP)
+			{
+				vel.z += 15;
 			}
 		}
 
