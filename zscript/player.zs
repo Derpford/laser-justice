@@ -193,7 +193,7 @@ class LaserPaladin : DoomPlayer
 		if(CountInv("Bomb") > 0 && bombtimer == 0 && btn & BT_ALTATTACK)
 		{
 			UseBomb(1024,true);
-			A_TakeInventory("Bomb");
+			A_TakeInventory("Bomb",1);
 			bombtimer = 20;
 		}
 	}
