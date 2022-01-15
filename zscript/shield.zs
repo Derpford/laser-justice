@@ -20,9 +20,8 @@ class ShieldToken : Inventory
 	{
 		if(passive)
 		{
-
 			newdmg = 0;
-			if(!blocked)
+			if(!blocked && !owner.bINVULNERABLE)
 			{
 				if(src) // Ignore damage that doesn't have a source.
 				{ 
