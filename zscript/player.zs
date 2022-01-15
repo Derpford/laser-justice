@@ -71,6 +71,7 @@ class LaserPaladin : DoomPlayer
 
 	void UseBomb(int radius, bool wipe = false)
 	{
+		A_StartSound("weapons/bombf",555);
 		A_Explode(32,radius,flags:XF_NOTMISSILE);
 		ThinkerIterator bomb = ThinkerIterator.Create("Actor");
 		Actor mo;
