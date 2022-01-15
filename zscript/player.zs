@@ -124,6 +124,7 @@ class LaserPaladin : DoomPlayer
 		{
 			if(iframes < 3 && !bombed)
 			{
+				ComboUp();
 				A_StartSound("weapons/mbombf");
 				UseBomb(512);
 				bombed = true;
@@ -184,12 +185,7 @@ class LaserPaladin : DoomPlayer
 
 		if(combometer >= 250 - health)
 		{
-			console.printf("Multiplier Up!");
-			A_GiveInventory("Multiplier");
-			if(CountInv("Multiplier")%5 == 0)
-			{
-				A_GiveInventory("Bomb");
-			}
+			ComboUp();
 			combometer -= (250 - health);
 		}
 
@@ -199,6 +195,16 @@ class LaserPaladin : DoomPlayer
 			UseBomb(1024,true);
 			A_TakeInventory("Bomb",1);
 			bombtimer = 20;
+		}
+	}
+
+	void ComboUp()
+	{
+		console.printf("Multiplier Up!");
+		A_GiveInventory("Multiplier");
+		if(CountInv("Multiplier")%5 == 0)
+		{
+			A_GiveInventory("Bomb");
 		}
 	}
 
