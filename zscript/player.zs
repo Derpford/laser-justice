@@ -115,7 +115,11 @@ class LaserPaladin : DoomPlayer
 			}
 		}
 
-		if(wipe) { Spawn("BombBurst",pos); }
+		if(wipe)
+		{ 
+			let burst = Spawn("BombBurst",pos); 
+			burst.target = self;
+		}
 	}
 
 	void DrawInvSparkles()
@@ -258,6 +262,14 @@ class BombBurst : Actor
 					mo.SetState(mo.ResolveState("Death"));
 					mo.vel = (0, 0, 0);
 					mo.bMISSILE = false;
+					if(target.CountInv("UpgradeToken") < 1000)
+					{
+						mo.Spawn("UpgradeTokenRandom",mo.pos);
+					}
+					else
+					{
+						mo.Spawn("HealthBonus",mo.pos);
+					}
 				}
 
 				if(!(mo is "LaserPaladin") && mo.bISMONSTER && !mo.bCORPSE && !(mo.InStateSequence(mo.curstate,mo.ResolveState("Pain"))))
