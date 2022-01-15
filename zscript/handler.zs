@@ -76,8 +76,9 @@ class EndScoreHandler : EventHandler
 		// Each Type and Val is a pair.
 		vals = Dictionary.Create();
 
-		vals.Insert("UpgradeToken","5");
-		vals.Insert("ShieldToken","10");
+		vals.Insert("UpgradeToken",".1");
+		vals.Insert("ShieldToken","5");
+		vals.Insert("Bomb","10");
 		vals.Insert("Multiplier","2");
 
 		hpval = 1000;
@@ -88,7 +89,6 @@ class EndScoreHandler : EventHandler
 		for(int cplr = 0; cplr < players.Size(); cplr++)
 		{
 			PlayerInfo pi = players[cplr];
-			console.printf("Checking player "..cplr);
 			if(pi.mo)
 			{
 				let plr = pi.mo;
@@ -103,9 +103,10 @@ class EndScoreHandler : EventHandler
 				while(iter.Next())
 				{
 					int cnt = plr.CountInv(iter.Key());
-					int val = iter.Value().ToInt();
-					console.printf("Score from "..iter.Key()..": "..cnt*val*mult);
-					plr.A_GiveInventory("ScoreItem",cnt*val*mult);
+					double val = iter.Value().ToDouble();
+					int scr = floor(cnt*val*mult);
+					console.printf("Score from "..iter.Key()..": "..scr);
+					plr.A_GiveInventory("ScoreItem",scr);
 					plr.A_TakeInventory(iter.Key(),cnt);
 				}
 			}
