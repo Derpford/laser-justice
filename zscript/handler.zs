@@ -32,23 +32,21 @@ class CoinHandler : EventHandler
 	override void WorldThingDied(WorldEvent e)
 	{
 		int amt = e.Thing.SpawnHealth();
-		while(amt > 5)
+		while(amt > 0)
 		{
-			if(amt > 125)
+			if(amt > 250)
 			{
 				TossDrop(e.Thing,"GoldCoin");
-				amt -= 125;
 			}
-			if(amt > 25)
+			else if(amt > 100)
 			{
 				TossDrop(e.Thing,"SilverCoin");
-				amt -= 25;
 			}
-			if(amt > 5)
+			else
 			{
 				TossDrop(e.Thing,"CopperCoin");
-				amt -= 5;
 			}
+			amt -= 10;
 		}
 	}
 }
@@ -70,35 +68,30 @@ class ComboHandler : EventHandler
 
 class EndScoreHandler : EventHandler
 {
-	Array<Name> type;
-	Array<int> val;
+	Dictionary vals;
 	int hpval; // How much to give per point of health
 
-	override void PostBeginPlay()
+	override void OnRegister()
 	{
 		// Each Type and Val is a pair.
-		type = {
-			"UpgradeToken",
-			"ShieldToken",
-			"Multiplier" // Should always be last!
-		};
+		vals = Dictionary.Create();
 
-		val = {
-			100,
-			100,
-			2 // Multiplier is exponential!
-		};
+		vals.Insert("UpgradeToken","5");
+		vals.Insert("ShieldToken","10");
+		vals.Insert("Multiplier","2");
 
 		hpval = 1000;
 	}
 
 	override void WorldUnloaded(WorldEvent e)
 	{
-		for(int cplr = 0; cplr < consoleplayers.Size(); cplr++)
+		for(int cplr = 0; cplr < players.Size(); cplr++)
 		{
-			let plr = consoleplayers[cplr];
-			if(plr)
+			PlayerInfo pi = players[cplr];
+			console.printf("Checking player "..cplr);
+			if(pi.mo)
 			{
+				let plr = pi.mo;
 				// First, get the multiplier for this player.
 				int mult = plr.CountInv("Multiplier");
 
@@ -106,12 +99,14 @@ class EndScoreHandler : EventHandler
 				plr.A_GiveInventory("ScoreItem",plr.health*mult);
 				plr.A_ResetHealth();
 
-				// Next, handle all their items.
-				for(int i = 0; i < type.Size(); i++)
+				let iter = DictionaryIterator.Create(vals);
+				while(iter.Next())
 				{
-					int cnt = plr.CountInv(type[i]);
-					plr.A_GiveInventory("ScoreItem",cnt*val[i]*mult);
-					plr.A_TakeInventory(type[i],cnt);
+					int cnt = plr.CountInv(iter.Key());
+					int val = iter.Value().ToInt();
+					console.printf("Score from "..iter.Key()..": "..cnt*val*mult);
+					plr.A_GiveInventory("ScoreItem",cnt*val*mult);
+					plr.A_TakeInventory(iter.Key(),cnt);
 				}
 			}
 		}
