@@ -59,6 +59,7 @@ class LaserPaladin : DoomPlayer
 		LaserPaladin.iframes 10;
 		Player.StartItem "LaserGun";
 		Player.StartItem "Multiplier";
+		Player.StartItem "Bomb";
 		+BUDDHA;
 	}
 
