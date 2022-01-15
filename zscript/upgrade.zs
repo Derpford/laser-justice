@@ -22,6 +22,28 @@ class UpgradeToken : Ammo
 	}
 }
 
+class UpgradeTokenRandom : RandomSpawner
+{
+	default
+	{
+		DropItem "ClipUpgradeToken";
+		DropItem "ShellUpgradeToken";
+		DropItem "RocketUpgradeToken";
+		DropItem "CellUpgradeToken";
+	}
+}
+
+class BigUpgradeTokenRandom : RandomSpawner
+{
+	default
+	{
+		DropItem "ClipboxUpgradeToken";
+		DropItem "ShellboxUpgradeToken";
+		DropItem "RocketboxUpgradeToken";
+		DropItem "CellPackUpgradeToken";
+	}
+}
+
 class ClipUpgradeToken : UpgradeToken replaces Clip
 {
 	default

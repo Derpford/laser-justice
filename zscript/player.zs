@@ -77,15 +77,16 @@ class LaserPaladin : DoomPlayer
 		while(mo = Actor(bomb.Next()))
 		{
 			double dist = Vec3To(mo).Length();
-			if(mo.bMISSILE)
+			if(mo.bMISSILE && dist < radius)
 			{
 				if(wipe)
 				{
 					mo.SetState(mo.ResolveState("Death"));
+					mo.Spawn("UpgradeTokenRandom");
 					mo.bMISSILE = false;
 					mo.vel = (0,0,0);
 				}
-				else if(dist < radius)
+				else
 				{
 					mo.target = self;
 					mo.vel = Vec3To(mo).Unit() * mo.vel.Length();

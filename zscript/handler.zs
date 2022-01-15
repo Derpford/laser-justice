@@ -8,7 +8,7 @@ class WeaponTokenHandler : EventHandler
 			if(e.Thing is "LaserGun") { return; }
 			if(e.Thing.bDROPPED)
 			{
-				e.Thing.spawn("ShellBoxUpgradeToken",e.Thing.pos);
+				e.Thing.spawn("BigUpgradeTokenRandom",e.Thing.pos);
 			}
 			else
 			{
