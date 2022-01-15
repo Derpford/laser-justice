@@ -10,3 +10,5 @@ version "4.7"
 #include "zscript/score.zs"
 #include "zscript/shield.zs"
 #include "zscript/powerups.zs"
+
+#include "zscript/damped.zs"

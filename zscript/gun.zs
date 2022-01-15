@@ -1,6 +1,7 @@
 class Gunlimiter : PowerupGiver replaces Berserk
 {
 	// GUNLIMITED POWER
+
 	default
 	{
 		+COUNTITEM;
@@ -34,9 +35,18 @@ class LaserGun : Weapon
 {
 	// The only gun a Paladin of LASER JUSTICE needs.
 
+	mixin DampedSpringWep;
+
 	default
 	{
+		+WEAPON.DONTBOB;
+		LaserGun.jumpcap 25;
+	}
 
+	override void Tick()
+	{
+		super.Tick();
+		A_OffsetTick();
 	}
 
 	action clearscope int GetLevel()
@@ -141,20 +151,20 @@ class LaserGun : Weapon
 	states
 	{
 		Select:
-			PISG A 1 A_Raise(35);
+			CGUN AAAAABBBBB 1 A_DampedRaise(35);
 			Loop;
 		Deselect:
-			PISG A 1 A_Lower(35);
+			CGUN AAAAABBBBB 1 A_DampedLower(35);
 			Loop;
 
 		Ready:
-			PISG A 1 A_WeaponReady();
+			CGUN AAAAABBBBB 1 A_WeaponReady();
 			Loop;
 
 		Fire:
-			PISG A 1 FireLaserGun(GetLevel());
-			PISG B 2 SetFireTics(GetLevel(),false);
-			PISG C 2 SetFireTics(GetLevel(),true);
+			CGUN C 1 FireLaserGun(GetLevel());
+			CGUN B 2 SetFireTics(GetLevel(),false);
+			CGUN D 2 SetFireTics(GetLevel(),true);
 			Goto Ready;
 	}
 }
