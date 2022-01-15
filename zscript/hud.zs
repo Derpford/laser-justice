@@ -6,6 +6,8 @@ class LaserUI : BaseStatusBar
 	double armoramount, armormax; // armor details
 	int leftbarf, rightbarf, cbarf, ctextf, ltextf, rtextf,multif;
 
+	Array<String> gunlabels;
+
 	HUDFont mConFont; // Console font.
 	HUDFont mBigFont;
 
@@ -24,6 +26,14 @@ class LaserUI : BaseStatusBar
 		ltextf = DI_SCREEN_LEFT_BOTTOM | DI_ITEM_LEFT_BOTTOM | DI_TEXT_ALIGN_LEFT;
 		multif = DI_SCREEN_RIGHT_TOP | DI_ITEM_RIGHT_TOP | DI_TEXT_ALIGN_RIGHT;
 		rtextf = DI_SCREEN_RIGHT_BOTTOM | DI_ITEM_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT;
+
+		gunlabels.Push("Laser Beam");
+		gunlabels.Push("Dual Laser");
+		gunlabels.Push("Long Laser");
+		gunlabels.Push("Wide Laser");
+		gunlabels.Push("Buster Laser");
+		gunlabels.Push("Omega Beam");
+
 	}
 
 	void DrawHudBar(String img, Vector2 pos, double size, double xclip, double yclip, int flags)
@@ -79,12 +89,12 @@ class LaserUI : BaseStatusBar
 		DrawString(mConFont, FormatNumber(combometer,3,format:FNF_FILLZEROS),(-44,16),multif,Font.CR_DARKRED);
 
 		// Bottom Right panel, weapon/bomb info.
-		DrawString(mBigFont, FormatNumber(lvl,1),(-44,-36),rtextf,Font.CR_GREEN);
+		DrawString(mBigFont, gunlabels[lvl],(-44,-36),rtextf,Font.CR_GREEN);
 		DrawString(mConFont, FormatNumber(upg,3,format:FNF_FILLZEROS),(-44,-16),rtextf,Font.CR_BLUE);
 
 		for(int i = 0; i < bombs; i++)
 		{
-			DrawImage("ROCKA0",(-144+(18*i),-16),rightbarf);
+			DrawImage("ROCKA0",(-144+(18*i),-36),rightbarf);
 		}
 		//DrawString(mBigFont, FormatNumber(bombs,1),(-128, -36),rtextf, Font.CR_BLUE);
 
