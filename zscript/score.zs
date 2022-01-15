@@ -43,7 +43,7 @@ class CopperCoin : MultiScore
 
 	default
 	{
-		Inventory.Amount 5;
+		Inventory.Amount 1;
 		Scale 0.4;
 		Inventory.PickupMessage "Points";
 	}
@@ -67,7 +67,7 @@ class SilverCoin : CopperCoin
 
 	default
 	{
-		Inventory.Amount 10;
+		Inventory.Amount 2;
 	}
 
 	states
@@ -84,7 +84,7 @@ class GoldCoin : SilverCoin
 
 	default
 	{
-		Inventory.Amount 25;
+		Inventory.Amount 3;
 	}
 
 	states
