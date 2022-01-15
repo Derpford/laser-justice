@@ -89,40 +89,6 @@ class LaserGun : Weapon
 		}
 	}
 
-	action void UseBomb()
-	{
-		if(invoker.bombtimer == 0 && invoker.owner.CountInv("Bomb")>0)
-		{
-			Spawn("BombBurst",invoker.owner.pos);
-			invoker.owner.A_StartSound("weapons/bombf",666);
-			invoker.owner.A_Explode(32,512,flags:XF_NOTMISSILE);
-			ThinkerIterator bomb = ThinkerIterator.Create("Actor");
-			Actor mo;
-			while(mo = Actor(bomb.Next()))
-			{
-				if(mo.bMISSILE)
-				{
-					mo.SetState(mo.ResolveState("Death"));
-					continue;
-				}
-				if(mo == invoker.owner || !(mo.bSHOOTABLE))
-				{
-					continue;
-				}
-				if(invoker.owner.Vec3To(mo).Length() <= 512)
-				{
-					double scalar = 0.5 + (256 - invoker.owner.Vec3To(mo).Length())/256.;
-					mo.bSKULLFLY = true;
-					mo.vel = invoker.owner.Vec3To(mo).Unit() * (1024 * scalar) / float(mo.mass/2.);
-					mo.vel.z += 12 * scalar;
-				}
-			}
-
-			invoker.bombtimer = 20;
-			invoker.owner.A_TakeInventory("Bomb",1);
-		}
-	}
-
 	action void SetFireTics(int lvl, bool secondframe = false)
 	{
 		int gunlimited = invoker.owner.CountInv("PowerWeaponLevel2");
