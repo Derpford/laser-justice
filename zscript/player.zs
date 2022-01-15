@@ -182,7 +182,7 @@ class LaserPaladin : DoomPlayer
 		}
 
 		bombtimer = max(bombtimer-1, 0);
-		if(bombtimer == 0 && owner.GetPlayerInput(INPUT_BUTTONS) & BT_ALTATTACK)
+		if(bombtimer == 0 && btn & BT_ALTATTACK)
 		{
 			UseBomb(1024,true);
 			bombtimer = 20;

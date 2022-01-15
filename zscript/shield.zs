@@ -36,7 +36,7 @@ class ShieldToken : Inventory
 					}
 					// Mini-bomb and take some shieldtokens, but only if this is not floor damage.
 					let plr = LaserPaladin(owner);
-					if(plr) { plr.MiniBomb(); }
+					if(plr) { plr.UseBomb(512); }
 					owner.A_TakeInventory("ShieldToken",10); 
 					blocked = true;
 				}
