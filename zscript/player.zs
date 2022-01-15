@@ -190,9 +190,10 @@ class LaserPaladin : DoomPlayer
 		}
 
 		bombtimer = max(bombtimer-1, 0);
-		if(bombtimer == 0 && btn & BT_ALTATTACK)
+		if(CountInv("Bomb") > 0 && bombtimer == 0 && btn & BT_ALTATTACK)
 		{
 			UseBomb(1024,true);
+			A_TakeInventory("Bomb");
 			bombtimer = 20;
 		}
 	}
