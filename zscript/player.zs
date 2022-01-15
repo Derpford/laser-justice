@@ -15,31 +15,6 @@ class Multiplier : Inventory
 	{
 		mercytimer = max(mercytimer-1,0);
 	}
-	override void Travelled()
-	{
-		owner.A_GiveInventory("ScoreItem",countinv("Multiplier")*100);
-		owner.A_TakeInventory("Multiplier",1000);
-	}
-
-	/*
-	override bool HandlePickup(Inventory item)
-	{
-		Console.printf("Handling items!");
-		if(item is "ScoreItem")
-		{
-			int amt = item.amount * owner.CountInv("Multiplier");
-			owner.A_GiveInventory("ScoreItem", amt); // Start at x2.
-			console.printf("Points <"..amt..">");
-			item.bPickupGood = true;
-
-			return true;
-		}
-		else
-		{
-			return super.HandlePickup(item);
-		}
-
-	}*/
 
 	override void AbsorbDamage(int dmg, Name mod, out int newdmg, Actor inf, Actor src, int flags)
 	{
@@ -50,16 +25,6 @@ class Multiplier : Inventory
 			mercytimer = 35;
 		}
 		Super.AbsorbDamage(dmg,mod,newdmg,inf,src,flags);
-	}
-}
-
-class HealthScore: Inventory
-{
-	// Handles giving the player bonus points for staying healthy.
-	override void Travelled()
-	{
-		owner.A_GiveInventory("ScoreItem",owner.health*1000);
-		owner.A_GiveInventory("Health",100);
 	}
 }
 

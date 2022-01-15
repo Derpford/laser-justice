@@ -33,7 +33,6 @@ class LaserGun : Weapon
 {
 	// The only gun a Paladin of LASER JUSTICE needs.
 
-
 	default
 	{
 
