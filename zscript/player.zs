@@ -82,7 +82,14 @@ class LaserPaladin : DoomPlayer
 				if(wipe)
 				{
 					mo.SetState(mo.ResolveState("Death"));
-					mo.Spawn("UpgradeTokenRandom");
+					if(CountInv("UpgradeToken") < 1000)
+					{
+						mo.Spawn("UpgradeTokenRandom",mo.pos);
+					}
+					else
+					{
+						mo.Spawn("HealthBonus",mo.pos);
+					}
 					mo.bMISSILE = false;
 					mo.vel = (0,0,0);
 				}
