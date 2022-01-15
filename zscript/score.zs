@@ -33,13 +33,17 @@ class MultiScore : ScoreItem
 	{
 		let mult = max(toucher.CountInv("Multiplier"),1);
 		amount = amount * mult;
+
+		let plr = LaserPaladin(toucher);
+		if(plr) { plr.combometer += 1; }
+
 		return super.TryPickup(toucher);
 	}
 }
 
 class CopperCoin : MultiScore
 {
-	// Small coin. 5 points.
+	// Small coin. 1 point.
 
 	default
 	{
@@ -63,7 +67,7 @@ class CopperCoin : MultiScore
 
 class SilverCoin : CopperCoin
 {
-	// Medium coin. 25 points.
+	// Medium coin. 2 points.
 
 	default
 	{
@@ -80,7 +84,7 @@ class SilverCoin : CopperCoin
 
 class GoldCoin : SilverCoin
 {
-	// Big coin. 125 points.
+	// Big coin. 3 points.
 
 	default
 	{
