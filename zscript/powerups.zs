@@ -4,6 +4,7 @@ class Orbiter : Actor
 	default
 	{
 		+SHOOTABLE;
+		+INVULNERABLE;
 		-VULNERABLE; // AoE damage does not affect orbs.
 		Health 50;
 		Height 32;
@@ -14,7 +15,6 @@ class Orbiter : Actor
 	override void Tick()
 	{
 		Super.Tick();
-		alpha = 0.2 + (0.8 * health/50.);
 	}
 
 	states
