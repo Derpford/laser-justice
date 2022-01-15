@@ -158,14 +158,24 @@ class LaserGun : Weapon
 			Loop;
 
 		Ready:
-			CGUN AAAAABBBBB 1 A_WeaponReady();
+			CGUN A 1 A_WeaponReady();
 			Loop;
 
-		Fire:
-			CGUN C 1 FireLaserGun(GetLevel());
-			CGUN B 2 SetFireTics(GetLevel(),false);
-			CGUN D 2 SetFireTics(GetLevel(),true);
+		WindDown:
+			CGUN ABABAABBAAABBB 1 A_WeaponReady();
+			CGUN AAAABBBBAAAAABBBBB 1 A_WeaponReady();
 			Goto Ready;
+
+		Fire:
+			CGUN C 2
+			{
+				FireLaserGun(GetLevel());
+				int kickamt = 1+GetLevel();
+				A_OffsetKick((frandom(-4,4),kickamt*5,.2));
+			}
+			CGUN D 2 SetFireTics(GetLevel(),false);
+			CGUN B 2 SetFireTics(GetLevel(),true);
+			Goto WindDown;
 	}
 }
 
