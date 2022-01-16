@@ -38,6 +38,19 @@ class Bomb : Inventory
 	}
 }
 
+class PerfectDodge : PowerupGiver
+{
+	// A way to get a screen flash.
+	default
+	{
+		Powerup.Type "PowerTimeFreezer";
+		Inventory.Amount 0;
+		+Inventory.AUTOACTIVATE;
+		Powerup.Duration 10;
+		Powerup.ColorMap 0.4,0.4,1.0;
+	}
+}
+
 class LaserPaladin : DoomPlayer
 {
 	// A Paladin of Laser Justice.
@@ -142,8 +155,9 @@ class LaserPaladin : DoomPlayer
 			if(iframes < 3 && !bombed)
 			{
 				ComboUp();
-				A_StartSound("weapons/mbombf");
-				UseBomb(512);
+				A_StartSound("weapons/bombf");
+				A_GiveInventory("PerfectDodge");
+				UseBomb(512,true);
 				bombed = true;
 			}
 			return 0;
