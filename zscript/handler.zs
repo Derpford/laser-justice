@@ -108,6 +108,7 @@ class EndScoreHandler : EventHandler
 				plr.A_ResetHealth();
 
 				let iter = DictionaryIterator.Create(vals);
+				// Now we take each item and give its point value.
 				while(iter.Next())
 				{
 					int cnt = plr.CountInv(iter.Key());
@@ -116,6 +117,17 @@ class EndScoreHandler : EventHandler
 					console.printf("Score from "..iter.Key()..": "..scr);
 					plr.A_GiveInventory("ScoreItem",scr);
 					plr.A_TakeInventory(iter.Key(),cnt);
+				}
+
+				// Finally, wrap up and prep for next level.
+				plr.A_GiveInventory("Bomb",1); // Start each level with one (1) bomb
+				// If this is a LaserPaladin (which it should be) we need to set up for the stat screen's score totals.
+				let pal = LaserPaladin(plr);
+				if(pal)
+				{
+					pal.scorelast = pal.score;
+					pal.scoretotal += pal.score;
+					pal.score = 0;
 				}
 			}
 		}

@@ -54,6 +54,9 @@ class LaserPaladin : DoomPlayer
 
 	int bombtimer; // For real bombs.
 
+	int scoretotal; // Stores the total score across all maps.
+	int scorelast; // How much did we score in the last map? Used in the stat screen.
+
 	default
 	{
 		LaserPaladin.iframes 10;
