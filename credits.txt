@@ -1,0 +1,5 @@
+Weapon sprite by Ultra64.
+
+Bullets, coins, and gems from OpenGameArt.
+
+Sounds from Nerf ArenaBlast.
