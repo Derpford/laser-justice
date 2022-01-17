@@ -10,6 +10,8 @@ class LaserShot : Actor
 		//RenderStyle "Add";
 		DamageFunction (8);
 		Speed 45;
+		Radius 2;
+		Height 6;
 		DeathSound "weapons/laserx";
 	}
 
