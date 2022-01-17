@@ -94,7 +94,7 @@ class LaserPaladin : DoomPlayer
 		while(mo = Actor(bomb.Next()))
 		{
 			double dist = Vec3To(mo).Length();
-			if(mo.bMISSILE && dist < radius)
+			if(mo.bMISSILE && mo.target != self && dist < radius) 
 			{
 				if(wipe)
 				{
