@@ -94,7 +94,7 @@ class LaserPaladin : DoomPlayer
 		while(mo = Actor(bomb.Next()))
 		{
 			double dist = Vec3To(mo).Length();
-			if(mo is "Robot_DebrisBase") { continue; } // Rampancy compat
+			if(mo.IsZeroDamage()) { continue; } // Rampancy compat
 			if(mo.bMISSILE && mo.target != self && dist < radius) 
 			{
 				if(wipe)
@@ -274,7 +274,7 @@ class BombBurst : Actor
 		Actor mo;
 		while(mo = Actor(bomb.Next()))
 		{
-			if(mo is "Robot_DebrisBase") { continue; } // Rampancy compat
+			if(mo.IsZeroDamage()) { continue; } // Rampancy compat
 			if(Vec3To(mo).Length()<=512)
 			{
 				if(mo.bMISSILE && mo.species != "Laser")
