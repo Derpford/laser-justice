@@ -18,8 +18,9 @@ OptionMenu "DampedWeaponOptions"
 	StaticText "Set to 0 to disable movement/turning sway.", "White"
 	StaticText "---", "White"
 	StaticText "", "White"
-	Slider "Movement Sway", vel_sway_intensity, 0.0, 2.0, 0.1, 1
-	Slider "Turning Sway", turn_sway_intensity, 0.0, 2.0, 0.1, 1
+	Slider "Movement Sway Intensity", vel_sway_intensity, 0.0, 2.0, 0.1, 1
+	Slider "Turning Sway Intensity", turn_sway_intensity, 0.0, 2.0, 0.1, 1
+	Slider "Jumping Sway Intensity", jump_sway_intensity, 0.0, 2.0, 0.1, 1
 }
 
 AddOptionMenu "OptionsMenu"

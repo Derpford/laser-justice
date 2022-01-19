@@ -7,7 +7,7 @@ mixin class DampedSpringWep
 	Vector3 offpos, offvel, offgoal;
 
 	CVar xint, yint, zint; // X, Y, Z intensity
-	CVar yawint, velint; // Yaw and Velocity intensity--separate from weapon animations
+	CVar yawint, velint, jumpint; // Yaw and Velocity intensity--separate from weapon animations
 
 	double ycap; // how far the sprite is allowed to go on the z axis
 	Property jumpcap : ycap;
@@ -132,6 +132,7 @@ mixin class DampedSpringWep
 
 		invoker.yawint = CVar.GetCVar("turn_sway_intensity",players[consoleplayer]);
 		invoker.velint = CVar.GetCVar("vel_sway_intensity",players[consoleplayer]);
+		invoker.jumpint = CVar.GetCVar("jump_sway_intensity",players[consoleplayer]);
 
 		let plr = invoker.owner.player;
 		let plrvel = (plr.cmd.sidemove,plr.cmd.forwardmove);
@@ -142,7 +143,7 @@ mixin class DampedSpringWep
 			plrvel = plrvel.Unit() * invoker.velint.getFloat();
 		}
 
-		double plrz = invoker.owner.vel.z * invoker.velint.getFloat();
+		double plrz = invoker.owner.vel.z * invoker.jumpint.getFloat();
 
 
 		/*
