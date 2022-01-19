@@ -6,6 +6,8 @@ mixin class DampedSpringWep
 	// Offset position and velocity.
 	Vector3 offpos, offvel, offgoal;
 
+	CVar xint, yint, zint; // X, Y, Z intensity
+
 	double ycap; // how far the sprite is allowed to go on the z axis
 	Property jumpcap : ycap;
 
@@ -13,7 +15,7 @@ mixin class DampedSpringWep
 	{
 		offpos = (0,128,1);
 		offvel = (0,0,0);
-		offgoal = (0,32,1);
+		offgoal = (0,0,1);
 	}
 	// Z should default to 1 because it's a scale, not a position.
 
@@ -147,7 +149,7 @@ mixin class DampedSpringWep
 		*/
 
 		invoker.offpos.x = invoker.offpos.x + invoker.offvel.x;
-		invoker.offpos.y = max(-invoker.ycap+32, invoker.offpos.y + invoker.offvel.y); // Don't let it go too far upward.
+		invoker.offpos.y = max(-invoker.ycap, invoker.offpos.y + invoker.offvel.y); // Don't let it go too far upward.
 		invoker.offpos.z = invoker.offpos.z + invoker.offvel.z;
 		
 
@@ -173,31 +175,43 @@ mixin class DampedSpringWep
 		//A_OverlayScale(1,invoker.offpos.z);
 		if(invoker.owner.player.readyweapon == invoker)
 		{
+			invoker.xint = CVar.GetCVar("sway_intensity_x",players[consoleplayer]);
+			invoker.yint = CVar.GetCVar("sway_intensity_y",players[consoleplayer]);
+			invoker.zint = CVar.GetCVar("sway_intensity_z",players[consoleplayer]);
+
+			Vector3 finaloffs = (
+				invoker.offpos.x * invoker.xint.getFloat(),
+				(invoker.offpos.y * invoker.yint.getFloat()) + 32,
+				(invoker.offpos.z * invoker.zint.getFloat()) + 1.0
+				);
+			
 			psp.pivot.x = 0.5;
 			psp.pivot.y = 1.0;
-			psp.x = invoker.offpos.x;
-			psp.y = invoker.offpos.y;
-			psp.scale.x = invoker.offpos.z;
-			psp.scale.y = invoker.offpos.z;
+
+			psp.x = finaloffs.x;
+			psp.y = finaloffs.y;
+			psp.scale.x = finaloffs.z;
+			psp.scale.y = finaloffs.z;
 
 			psp2.pivot.x = 0.5;
 			psp2.pivot.y = 1.0;
-			psp2.x = invoker.offpos.x;
-			psp2.x = invoker.offpos.x;
-			psp2.scale.x = invoker.offpos.z;
-			psp2.scale.y = invoker.offpos.z;
+
+			psp2.x = finaloffs.x;
+			psp2.y = finaloffs.y;
+			psp2.scale.x = finaloffs.z;
+			psp2.scale.y = finaloffs.z;
 		}
 	}
 
 	action void A_DampedRaise(int speed)
 	{
-		A_OffsetGoal((0,48,1));
+		A_OffsetGoal((0,0,0));
 		A_Raise(speed);
 	}
 
 	action void A_DampedLower(int speed)
 	{
-		A_OffsetGoal((0,128,1));
+		A_OffsetGoal((0,128,0));
 		A_Lower(speed);
 	}
 }

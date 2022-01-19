@@ -171,7 +171,7 @@ class LaserGun : Weapon
 			{
 				FireLaserGun(GetLevel());
 				int kickamt = 1+GetLevel();
-				A_OffsetKick((frandom(-4,4),kickamt*5,.2));
+				A_OffsetKick((frandom(-4,4),kickamt*5,.1));
 			}
 			CGUN D 2 SetFireTics(GetLevel(),false);
 			CGUN B 2 SetFireTics(GetLevel(),true);
