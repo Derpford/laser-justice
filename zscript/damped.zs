@@ -7,6 +7,7 @@ mixin class DampedSpringWep
 	Vector3 offpos, offvel, offgoal;
 
 	CVar xint, yint, zint; // X, Y, Z intensity
+	CVar yawint, velint; // Yaw and Velocity intensity--separate from weapon animations
 
 	double ycap; // how far the sprite is allowed to go on the z axis
 	Property jumpcap : ycap;
@@ -129,15 +130,19 @@ mixin class DampedSpringWep
 		let psp = invoker.owner.player.GetPSprite(PSP_WEAPON);
 		let psp2 = invoker.owner.player.GetPSprite(PSP_FLASH);
 
+		invoker.yawint = CVar.GetCVar("turn_sway_intensity",players[consoleplayer]);
+		invoker.velint = CVar.GetCVar("vel_sway_intensity",players[consoleplayer]);
+
 		let plr = invoker.owner.player;
 		let plrvel = (plr.cmd.sidemove,plr.cmd.forwardmove);
-		let plryaw = plr.cmd.yaw * (360./65536.);
-		if(!(plrvel.x == 0 && plrvel.y == 0))
+		//let plrvel = invoker.owner.vel; // TODO: Figure out how to get player velocity in terms of player's local axes
+		let plryaw = (plr.cmd.yaw * (360./65536.)) * invoker.yawint.getFloat();
+		if(!(plrvel.x == 0 && plrvel.y == 0 && plrvel.z == 0))
 		{
-			plrvel = plrvel.Unit();
+			plrvel = plrvel.Unit() * invoker.velint.getFloat();
 		}
 
-		double plrz = invoker.owner.vel.z;
+		double plrz = invoker.owner.vel.z * invoker.velint.getFloat();
 
 
 		/*

@@ -1,0 +1,6 @@
+nosave float sway_intensity_x = 1.0;
+nosave float sway_intensity_y = 1.0;
+nosave float sway_intensity_z = 1.0;
+
+nosave float turn_sway_intensity = 1.0;
+nosave float vel_sway_intensity = 1.0;

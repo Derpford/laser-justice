@@ -1,0 +1,28 @@
+OptionMenu "DampedWeaponOptions"
+{
+
+	Title "Weapon Sway Options"
+
+	StaticText "---", "White"
+	StaticText "These control the GLOBAL scale of weapon sway.", "White"
+	StaticText "Set to 0 to disable sway entirely.", "White"
+	StaticText "---", "White"
+	StaticText "", "White"
+	Slider "Side Sway Intensity", sway_intensity_x, 0.0, 2.0, 0.1, 1
+	Slider "Up/Down Sway Intensity", sway_intensity_y, 0.0, 2.0, 0.1, 1
+	Slider "Back/Forward Intensity", sway_intensity_z, 0.0, 2.0, 0.1, 1
+
+	StaticText "---", "White"
+	StaticText "These control how much the weapon sways from", "White"
+	StaticText "your movement and turning.", "White"
+	StaticText "Set to 0 to disable movement/turning sway.", "White"
+	StaticText "---", "White"
+	StaticText "", "White"
+	Slider "Movement Sway", vel_sway_intensity, 0.0, 2.0, 0.1, 1
+	Slider "Turning Sway", turn_sway_intensity, 0.0, 2.0, 0.1, 1
+}
+
+AddOptionMenu "OptionsMenu"
+{
+	Submenu "Sway Options", "DampedWeaponOptions"
+}
