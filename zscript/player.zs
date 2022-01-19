@@ -88,7 +88,7 @@ class LaserPaladin : DoomPlayer
 	void UseBomb(int radius, bool wipe = false)
 	{
 		if(wipe) { A_StartSound("weapons/bombf",555); }
-		A_Explode(32,radius,flags:XF_NOTMISSILE);
+		A_Explode(32,radius,flags:XF_NOTMISSILE,fulldamagedistance:radius);
 		ThinkerIterator bomb = ThinkerIterator.Create("Actor");
 		Actor mo;
 		while(mo = Actor(bomb.Next()))
@@ -256,6 +256,8 @@ class BombBurst : Actor
 	override void Tick()
 	{
 		super.tick();
+		double radius = 512;
+		A_Explode(1,radius,flags:0,fulldamagedistance:radius);
 		blasts += 1;
 
 		// Visuals.
