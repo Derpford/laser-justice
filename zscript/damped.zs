@@ -137,7 +137,7 @@ mixin class DampedSpringWep
 		let plrvel = (plr.cmd.sidemove,plr.cmd.forwardmove);
 		//let plrvel = invoker.owner.vel; // TODO: Figure out how to get player velocity in terms of player's local axes
 		let plryaw = (plr.cmd.yaw * (360./65536.)) * invoker.yawint.getFloat();
-		if(!(plrvel.x == 0 && plrvel.y == 0 && plrvel.z == 0))
+		if(!(plrvel.x == 0 && plrvel.y == 0))
 		{
 			plrvel = plrvel.Unit() * invoker.velint.getFloat();
 		}
