@@ -136,12 +136,17 @@ mixin class DampedSpringWep
 
 		let plr = invoker.owner.player;
 		let plrvel = (plr.cmd.sidemove,plr.cmd.forwardmove);
-		//let plrvel = invoker.owner.vel; // TODO: Figure out how to get player velocity in terms of player's local axes
+		let v = invoker.owner.vel;
+		double topspeed = 10.; // todo: make this a cvar?
 		let plryaw = (plr.cmd.yaw * (360./65536.)) * invoker.yawint.getFloat();
+		let ang = Normalize180(invoker.owner.angle-90);
 		if(!(plrvel.x == 0 && plrvel.y == 0))
 		{
-			plrvel = plrvel.Unit() * invoker.velint.getFloat();
+			//plrvel = RotateVector(invoker.owner.vel.xy,Normalize180(invoker.owner.angle-90)); // TODO: Figure out how to get player velocity in terms of player's local axes
+			plrvel = plrvel.Unit() * (v.Length()/topspeed) * invoker.velint.getFloat();
 		}
+
+		console.printf("XY movement: "..plrvel);
 
 		double plrz = invoker.owner.vel.z * invoker.jumpint.getFloat();
 
@@ -165,11 +170,11 @@ mixin class DampedSpringWep
 			invoker.offgoal.x,
 			0);
 		invoker.offvel.y = damp(invoker.offpos.y,
-			invoker.offvel.y + plrz/2,
+			invoker.offvel.y + plrz/2.,
 			invoker.offgoal.y,
 			0);
 		invoker.offvel.z = damp(invoker.offpos.z,
-			invoker.offvel.z + plrvel.y/50,
+			invoker.offvel.z + plrvel.y/50.,
 			invoker.offgoal.z,
 			0);
 
