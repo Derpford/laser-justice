@@ -6,8 +6,9 @@ mixin class DampedSpringWep
 	// Offset position and velocity.
 	Vector3 offpos, offvel, offgoal;
 
-	CVar xint, yint, zint; // X, Y, Z intensity
-	CVar yawint, velint, jumpint; // Yaw and Velocity intensity--separate from weapon animations
+	transient CVar xint, yint, zint; // X, Y, Z intensity
+	transient CVar yawint, velint, jumpint; // Yaw and Velocity intensity--separate from weapon animations
+	//Don't bother here with these CVars, we're updating them next tick anyway.
 
 	double ycap; // how far the sprite is allowed to go on the z axis
 	Property jumpcap : ycap;

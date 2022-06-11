@@ -1,6 +1,6 @@
 class MultiScore : ScoreItem
 {
-	ThinkerIterator pfind;
+	transient ThinkerIterator pfind;
 	default
 	{
 		+BRIGHT;
@@ -9,7 +9,7 @@ class MultiScore : ScoreItem
 	override void PostBeginPlay()
 	{
 		Super.PostBeginPlay();
-		pfind = ThinkerIterator.Create("LaserPaladin");
+		pfind = ThinkerIterator.Create("LaserPaladin"); //TODO: Account players who can join and disconnect mid-game
 	}
 
 	override void Tick()

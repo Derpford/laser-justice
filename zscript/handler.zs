@@ -133,3 +133,8 @@ class EndScoreHandler : EventHandler
 		}
 	}
 }
+
+class MultiplayerAwareScoreItemHandler : EventHandler
+{
+
+}
