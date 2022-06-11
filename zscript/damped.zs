@@ -6,14 +6,8 @@ mixin class DampedSpringWep
 	// Offset position and velocity.
 	Vector3 offpos, offvel, offgoal;
 
-	//Saving CVars to the invoker will crash the savegame function.
-	/*
 	CVar xint, yint, zint; // X, Y, Z intensity
 	CVar yawint, velint, jumpint; // Yaw and Velocity intensity--separate from weapon animations
-	*/
-	
-	float xint,yint,zint;
-	float yawint,velint,jumpint;
 
 	double ycap; // how far the sprite is allowed to go on the z axis
 	Property jumpcap : ycap;
@@ -136,20 +130,20 @@ mixin class DampedSpringWep
 		let psp = invoker.owner.player.GetPSprite(PSP_WEAPON);
 		let psp2 = invoker.owner.player.GetPSprite(PSP_FLASH);
 
-		invoker.yawint = CVar.GetCVar("turn_sway_intensity",players[consoleplayer]).GetFloat();
-		invoker.velint = CVar.GetCVar("vel_sway_intensity",players[consoleplayer]).GetFloat();
-		invoker.jumpint = CVar.GetCVar("jump_sway_intensity",players[consoleplayer]).GetFloat();
+		invoker.yawint = CVar.GetCVar("turn_sway_intensity",players[consoleplayer]);
+		invoker.velint = CVar.GetCVar("vel_sway_intensity",players[consoleplayer]);
+		invoker.jumpint = CVar.GetCVar("jump_sway_intensity",players[consoleplayer]);
 
 		let plr = invoker.owner.player;
 		let plrvel = (plr.cmd.sidemove,plr.cmd.forwardmove);
 		//let plrvel = invoker.owner.vel; // TODO: Figure out how to get player velocity in terms of player's local axes
-		let plryaw = (plr.cmd.yaw * (360./65536.)) * invoker.yawint;
+		let plryaw = (plr.cmd.yaw * (360./65536.)) * invoker.yawint.getFloat();
 		if(!(plrvel.x == 0 && plrvel.y == 0))
 		{
-			plrvel = plrvel.Unit() * invoker.velint;
+			plrvel = plrvel.Unit() * invoker.velint.getFloat();
 		}
 
-		double plrz = invoker.owner.vel.z * invoker.jumpint;
+		double plrz = invoker.owner.vel.z * invoker.jumpint.getFloat();
 
 
 		/*
@@ -187,14 +181,14 @@ mixin class DampedSpringWep
 		//A_OverlayScale(1,invoker.offpos.z);
 		if(invoker.owner.player.readyweapon == invoker)
 		{
-			invoker.xint = CVar.GetCVar("sway_intensity_x",players[consoleplayer]).getFloat();
-			invoker.yint = CVar.GetCVar("sway_intensity_y",players[consoleplayer]).getFloat();
-			invoker.zint = CVar.GetCVar("sway_intensity_z",players[consoleplayer]).getFloat();
+			invoker.xint = CVar.GetCVar("sway_intensity_x",players[consoleplayer]);
+			invoker.yint = CVar.GetCVar("sway_intensity_y",players[consoleplayer]);
+			invoker.zint = CVar.GetCVar("sway_intensity_z",players[consoleplayer]);
 
 			Vector3 finaloffs = (
-				invoker.offpos.x * invoker.xint,
-				(invoker.offpos.y * invoker.yint) + 32,
-				(invoker.offpos.z * invoker.zint) + 1.0
+				invoker.offpos.x * invoker.xint.getFloat(),
+				(invoker.offpos.y * invoker.yint.getFloat()) + 32,
+				(invoker.offpos.z * invoker.zint.getFloat()) + 1.0
 				);
 			
 			psp.pivot.x = 0.5;
