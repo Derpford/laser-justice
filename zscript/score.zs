@@ -1,6 +1,32 @@
+
+class PlayerHolderSingletonThinker : Thinker
+{
+	
+	transient ThinkerIterator pfind;
+
+	PlayerHolderSingletonThinker Init()
+	{
+		ChangeStatNum(STAT_INFO); // Change this to STAT_STATIC if persisting between maps is desired.
+		pfind = ThinkerIterator.Create("LaserPaladin");
+		return self;
+	}
+
+	static PlayerHolderSingletonThinker Get()
+	{
+		ThinkerIterator it = ThinkerIterator.Create("PlayerHolderSingletonThinker",STAT_INFO); // Change this to STAT_STATIC if persisting between maps is desired.
+		let p = PlayerHolderSingletonThinker(it.Next());
+		if (p == null)
+		{
+			p = new("PlayerHolderSingletonThinker").Init();
+		}
+		return p;
+	}
+}
+
+
 class MultiScore : ScoreItem
 {
-	transient ThinkerIterator pfind;
+	//transient ThinkerIterator pfind;
 	default
 	{
 		+BRIGHT;
@@ -9,14 +35,14 @@ class MultiScore : ScoreItem
 	override void PostBeginPlay()
 	{
 		Super.PostBeginPlay();
-		pfind = ThinkerIterator.Create("LaserPaladin"); //TODO: Account players who can join and disconnect mid-game
+		//pfind = ThinkerIterator.Create("LaserPaladin"); //TODO: Account players who can respawn, despawn and die mid-map. Should be map global.
 	}
 
 	override void Tick()
 	{
 		Super.Tick();
 		Actor plr;
-		plr = Actor(pfind.next());
+		plr = Actor(PlayerHolderSingletonThinker.Get().pfind.next());
 		while(plr)
 		{
 			if(Vec3To(plr).Length() < 128)
@@ -24,7 +50,7 @@ class MultiScore : ScoreItem
 				//VelIntercept(plr,12);
 				vel = Vec3To(plr).Unit() * 12;
 			}
-			plr = Actor(pfind.next());
+			plr = Actor(PlayerHolderSingletonThinker.Get().pfind.next());
 		}
 	}
 

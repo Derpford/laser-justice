@@ -1,7 +1,7 @@
 gameinfo
 {
 	PlayerClasses = "LaserPaladin"
-	AddEventHandlers = "WeaponTokenHandler", "CoinHandler", "ComboHandler", "EndScoreHandler"
+	AddEventHandlers = "WeaponTokenHandler", "CoinHandler", "ComboHandler", "EndScoreHandler","MultiplayerAwareScoreItemHandler"
 	StatusBarClass = "LaserUI"
 	StatScreen_Single = "LaserStatusScreen"
 }

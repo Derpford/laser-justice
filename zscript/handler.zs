@@ -134,7 +134,41 @@ class EndScoreHandler : EventHandler
 	}
 }
 
-class MultiplayerAwareScoreItemHandler : EventHandler
+class MultiplayerAwareScoreItemHandler : StaticEventHandler
 {
-
+	override void WorldLoaded(WorldEvent e) 
+	{
+		//activate our thinker;
+		PlayerHolderSingletonThinker.Get();
+	}
+	
+	//We have to invalidate our player list for these reasons:
+	//Spawn - new player won't have Score items pulles to it.
+	//Respawn - ditto
+	//Die - no point to pull ScoreItems if we're dead
+	//Disconnect - player is now null. Remove it.
+	override void PlayerSpawned(PlayerEvent e) 
+	{
+		InvalidatePlayerList();
+	}
+	
+	override void PlayerRespawned(PlayerEvent e)
+	{
+		InvalidatePlayerList();
+	}
+	
+	override void PlayerDied(PlayerEvent e)
+	{
+		InvalidatePlayerList();
+	}
+	
+	override void PlayerDisconnected(PlayerEvent e)
+	{
+		InvalidatePlayerList();
+	}
+	
+	void InvalidatePlayerList()
+	{
+		PlayerHolderSingletonThinker.Get().pfind = ThinkerIterator.Create("LaserPaladin");
+	}
 }
