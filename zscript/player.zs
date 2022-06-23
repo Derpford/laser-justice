@@ -54,7 +54,7 @@ class PerfectDodge : PowerupGiver
 class LaserPaladin : DoomPlayer
 {
 	// A Paladin of Laser Justice.
-
+	const pullRadius = 128; //sphere radius within which coins are pulled.
 	int dodgetimer; // How long until we can dodge again; counts down.
 	int iframes; // How long we've been intangible; counts up.
 	bool bombed; // Have we triggered a parry bomb yet?
@@ -69,6 +69,8 @@ class LaserPaladin : DoomPlayer
 
 	int scoretotal; // Stores the total score across all maps.
 	int scorelast; // How much did we score in the last map? Used in the stat screen.
+	
+	//transient BlockMapIterator roughCoinPuller;
 
 	default
 	{
@@ -228,6 +230,20 @@ class LaserPaladin : DoomPlayer
 			A_TakeInventory("Bomb",1);
 			bombtimer = 20;
 		}
+		//refactor the coin pull code.
+		// see https://forum.zdoom.org/viewtopic.php?f=122&t=69168#p1157830 for details
+		ThinkerIterator CoinFinder = ThinkerIterator.Create("MultiScore");
+		Actor mo;
+		while (mo = MultiScore(CoinFinder.Next()))
+		{
+			//carve out our sphere.
+			if (Vec3To(mo).Length()>=pullRadius)
+			{
+				continue; // out of range
+			}
+			mo.vel = Vec3To(mo).Unit() * -12;
+		}
+		
 	}
 
 	void ComboUp()

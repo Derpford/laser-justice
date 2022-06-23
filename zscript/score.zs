@@ -1,15 +1,16 @@
 class MultiScore : ScoreItem
 {
-	ThinkerIterator pfind;
+	//ThinkerIterator pfind;
 	default
 	{
 		+BRIGHT;
 	}
 
+/*
 	override void PostBeginPlay()
 	{
 		Super.PostBeginPlay();
-		pfind = ThinkerIterator.Create("LaserPaladin");
+		//pfind = ThinkerIterator.Create("LaserPaladin"); //this is ineffective. It stores the playerlist for every type of entity.
 	}
 
 	override void Tick()
@@ -17,16 +18,20 @@ class MultiScore : ScoreItem
 		Super.Tick();
 		Actor plr;
 		plr = Actor(pfind.next());
+		//TODO: invert this interaction, that is check if we have any MultiScore things in player's proximity.
 		while(plr)
 		{
-			if(Vec3To(plr).Length() < 128)
+			if(Vec3To(plr).Length() < 128) //128u sphere around player
 			{
 				//VelIntercept(plr,12);
-				vel = Vec3To(plr).Unit() * 12;
+				vel = Vec3To(plr).Unit() * 12; // move 12u per seconds toward player.
 			}
 			plr = Actor(pfind.next());
-		}
+		} 
 	}
+	
+	*/
+	
 
 	// A multiplier-aware ScoreItem.
 	override bool TryPickup(in out Actor toucher)
